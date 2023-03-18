@@ -13,7 +13,7 @@ namespace Infrastructure.Configuration
     {
         public ContextBase(DbContextOptions<ContextBase> options) : base(options) { }
 
-        public DbSet<Message> Messages { get; set; }
+        public DbSet<Message> Message { get; set; }
         public DbSet<ApplicationUser> ASpplicationUsers { get; set; }
 
 

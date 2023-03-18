@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Interfaces;
+using Domain.Interfaces.InterfacesServices;
 using Entities.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,11 +13,13 @@ namespace WebAPIs.Controllers
     {
         private readonly IMapper _IMapper;
         private readonly IMessage _IMessage;
+        private readonly IServiceMessage _IServiceMessage;
 
-        public MessageController(IMapper iMapper, IMessage iMessage)
+        public MessageController(IMapper iMapper, IMessage iMessage, IServiceMessage iServiceMessage)
         {
             _IMapper = iMapper;
             _IMessage = iMessage;
+            _IServiceMessage = iServiceMessage;
         }
 
         private async Task<string> RetornaIdUsuarioLogado()
@@ -44,7 +47,7 @@ namespace WebAPIs.Controllers
             {
                 message.UserId = await RetornaIdUsuarioLogado();
                 var messageMap = _IMapper.Map<Message>(message);
-                await _IMessage.Add(messageMap);
+                await _IServiceMessage.Adicionar(messageMap);
                 return messageMap.ListNotifies;
             }
             catch (Exception ex)
@@ -60,7 +63,7 @@ namespace WebAPIs.Controllers
             try
             {
                 var messageMap = _IMapper.Map<Message>(message);
-                await _IMessage.Update(messageMap);
+                await _IServiceMessage.Atualizar(messageMap);
                 return messageMap.ListNotifies;
             }
             catch (Exception ex)
@@ -104,6 +107,19 @@ namespace WebAPIs.Controllers
             try
             {
                 return _IMapper.Map<List<MessageViewModel>>(await _IMessage.GetAll());
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        [Authorize, Produces("application/json"), HttpPost("/api/ListarMensagensAtivas")]
+        public async Task<List<MessageViewModel>> ListarMensagensAtivas()
+        {
+            try
+            {
+                return _IMapper.Map<List<MessageViewModel>>(await _IServiceMessage.ListarMensagensAtivas());
             }
             catch (Exception ex)
             {
