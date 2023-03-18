@@ -9,7 +9,10 @@ using Infrastructure.Repository.Generics;
 using Infrastructure.Repository.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
 using WebAPIs.Models;
 using WebAPIs.Token;
 
@@ -46,35 +49,42 @@ builder.Services.AddSingleton<IServiceMessage, ServiceMessage>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
       .AddJwtBearer(option =>
       {
+          var jk = JwtSecurityKey.Create("Secret_Key-12345678");
+
           option.TokenValidationParameters = new TokenValidationParameters
           {
+              RequireAudience = false,
+
               ValidateIssuer = false,
               ValidateAudience = false,
-              ValidateLifetime = true,
+              ValidateLifetime = false,
+              ValidateActor = false,
               ValidateIssuerSigningKey = true,
 
-              ValidIssuer = "Teste.Securiry.Bearer",
-              ValidAudience = "Teste.Securiry.Bearer",
-              IssuerSigningKey = JwtSecurityKey.Create("Secret_Key-12345678")
+              ValidIssuer = "Teste.Issuer.Bearer",
+              ValidAudience = "Teste.Audience.Bearer",
+              IssuerSigningKey = jk
           };
 
           option.Events = new JwtBearerEvents
           {
               OnAuthenticationFailed = context =>
               {
+                  var teste = context.Exception.Message;
                   Console.WriteLine("OnAuthenticationFailed: " + context.Exception.Message);
                   return Task.CompletedTask;
               },
               OnTokenValidated = context =>
               {
-                  Console.WriteLine("OnTokenValidated: " + context.SecurityToken);
+                  var teste = context.SecurityToken;
+                  Console.WriteLine("OnTokenValidated: " + context.SecurityToken);;
                   return Task.CompletedTask;
               }
           };
       });
 
 // Mapper
-var config = new AutoMapper.MapperConfiguration( cfg =>
+var config = new MapperConfiguration( cfg =>
 {
     cfg.CreateMap<MessageViewModel, Message>();
     cfg.CreateMap<Message, MessageViewModel>();
@@ -82,14 +92,49 @@ var config = new AutoMapper.MapperConfiguration( cfg =>
 IMapper mapper = config.CreateMapper();
 builder.Services.AddSingleton(mapper);
 
+///builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "JWT Authorization header using the Bearer scheme." +
+                "\r\n\r\n Enter 'Bearer' [Space] and then you token in the text input below." +
+                "\r\n\r\n Example: Bearer 12345abcdef"
+    });
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+//if (app.Environment.IsDevelopment())
+//{
+app.UseSwagger();
+app.UseSwaggerUI(uiOptions =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    uiOptions.SwaggerEndpoint("/swagger/v1/swagger.json", "WebAPI V1");
+});
+//}
 
 // CORs
 
@@ -98,7 +143,7 @@ if (app.Environment.IsDevelopment())
 //var urlPROD = "http://localhost2:4200";
 //app.UseCors(b => b.WithOrigins(urlDEV, urlHML, urlPROD));
 
-var devClient = "http://localhost:4200";
+var devClient = "http://localhost:7171";
 app.UseCors(x => x
 .AllowAnyOrigin()
 .AllowAnyMethod()
@@ -108,10 +153,9 @@ app.UseCors(x => x
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-app.UseSwaggerUI();
 
 app.Run();

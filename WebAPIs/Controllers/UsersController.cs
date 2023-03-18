@@ -12,7 +12,7 @@ namespace WebAPIs.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : Controller
+    public class UsersController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -38,14 +38,14 @@ namespace WebAPIs.Controllers
             if(resultado.Succeeded)
             {
                 var userCurrent = await _userManager.FindByEmailAsync(login.email);
-
+                var jk = JwtSecurityKey.Create("Secret_Key-12345678");
                 var token = new TokenJWTBuilder()
-                    .AddSecurityKey(JwtSecurityKey.Create("Secret_Key_teste"))
+                    .AddSecurityKey(jk)
                     .AddSubject("NomeEmpresaTeste")
                     .AddIssuer("Teste.Issuer.Bearer")
                     .AddAudience("Teste.Audience.Bearer")
                     .AddClaim("IdUsuario", userCurrent.Id)
-                    .AddExpiry(5)
+                    .AddExpiry(1440)
                     .Builder();
 
                 return Ok(token.value);
