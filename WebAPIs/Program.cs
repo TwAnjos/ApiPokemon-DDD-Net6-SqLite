@@ -143,12 +143,12 @@ app.UseSwaggerUI(uiOptions =>
 //var urlPROD = "http://localhost2:4200";
 //app.UseCors(b => b.WithOrigins(urlDEV, urlHML, urlPROD));
 
-//var devClient = "http://localhost:7171";
-//app.UseCors(x => x
-//.AllowAnyOrigin()
-//.AllowAnyMethod()
-//.AllowAnyHeader()
-//.WithOrigins(devClient));
+var devClient = "http://localhost:7171";
+app.UseCors(x => x
+.AllowAnyOrigin()
+.AllowAnyMethod()
+.AllowAnyHeader()
+.WithOrigins(devClient));
 
 
 app.UseHttpsRedirection();
