@@ -9,8 +9,8 @@ namespace Domain.InterfacesExternal
 {
     public interface IPokemon
     {
-        List<Pokemon> List10PokemonRandom();
-        Pokemon GetPokemonById(int idPokemon);
-        Pokemon GetPokemonByName(string namePokemon);
+        List<PokemonDetails> List10PokemonRandom();
+        PokemonDetails GetPokemonById(int idPokemon);
+        PokemonDetails GetPokemonByName(string namePokemon);
     }
 }

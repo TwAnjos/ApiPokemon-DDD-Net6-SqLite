@@ -2,11 +2,13 @@ using AutoMapper;
 using Domain.Interfaces;
 using Domain.Interfaces.Generics;
 using Domain.Interfaces.InterfacesServices;
+using Domain.InterfacesExternal;
 using Domain.Services;
 using Entities.Entities;
 using Infrastructure.Configuration;
 using Infrastructure.Repository.Generics;
 using Infrastructure.Repository.Repositories;
+using Infrastructure.Repository.RepositoryExternal;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -41,6 +43,7 @@ builder.Services.AddRazorPages();
 // Interface e Repositorio
 builder.Services.AddSingleton(typeof(IGeneric<>), typeof(RepositoryGenerics<>));
 builder.Services.AddSingleton<IMessage, RepositoryMessage>();
+builder.Services.AddSingleton<IPokemon, RepositoryPokemon>();
 
 // Servico Dominio
 builder.Services.AddSingleton<IServiceMessage, ServiceMessage>();
@@ -137,12 +140,6 @@ app.UseSwaggerUI(uiOptions =>
 //}
 
 // CORs
-
-//var urlDEV = "http://localhost:4200";
-//var urlHML = "http://localhost1:4200";
-//var urlPROD = "http://localhost2:4200";
-//app.UseCors(b => b.WithOrigins(urlDEV, urlHML, urlPROD));
-
 var devClient = "http://localhost:7171";
 app.UseCors(x => x
 .AllowAnyOrigin()

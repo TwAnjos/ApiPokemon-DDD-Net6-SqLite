@@ -1,5 +1,6 @@
 ﻿using Domain.InterfacesExternal;
 using Entities.EntitiesExternal;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,19 +14,61 @@ namespace Infrastructure.Repository.RepositoryExternal
         //https://pokeapi.co/api/v2/pokemon/1
         private readonly string urlApi = "https://pokeapi.co/api/v2/pokemon/";
 
-        public Pokemon GetPokemonById(int idPokemon)
+        public PokemonDetails GetPokemonById(int idPokemon)
+        {
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    var resposta = client.GetAsync(urlApi + idPokemon);
+                    resposta.Wait();
+
+                    if (resposta.Result.IsSuccessStatusCode)
+                    {
+                        var retorno = resposta.Result.Content.ReadAsStringAsync();
+                        var pokemon = JsonConvert.DeserializeObject<PokemonDetails>(retorno.Result);
+                        return pokemon;
+                    }
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public PokemonDetails GetPokemonByName(string namePokemon)
         {
             throw new NotImplementedException();
         }
 
-        public Pokemon GetPokemonByName(string namePokemon)
+        public List<PokemonDetails> List10PokemonRandom()
         {
-            throw new NotImplementedException();
-        }
+            //tem que disparar 10 vezes essa chamada?
 
-        public List<Pokemon> List10PokemonRandom()
-        {
-            throw new NotImplementedException();
+            //var retorno = new List<PokemonDetails>();
+            var retorno = new PokemonDetails();
+
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    var resposta = client.GetStringAsync(urlApi+"2");
+                    resposta.Wait();
+
+                    retorno = JsonConvert.DeserializeObject<PokemonDetails>(resposta.Result);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            var list10Pokemons = new List<PokemonDetails>();
+            list10Pokemons.Add(retorno);
+
+            return list10Pokemons;
         }
 
         //creates...
