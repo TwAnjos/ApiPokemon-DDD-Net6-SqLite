@@ -13,7 +13,13 @@ namespace Infrastructure.Configuration
     {
         public ContextBase(DbContextOptions<ContextBase> options) : base(options) { }
 
+        protected ContextBase()
+        {
+            Database.AutoSavepointsEnabled = true;
+        }
+
         public DbSet<Message> Message { get; set; }
+        public DbSet<PokemonsCapturados> PokemonsCapturados { get; set; }
         public DbSet<ApplicationUser> ASpplicationUsers { get; set; }
 
 
@@ -21,6 +27,7 @@ namespace Infrastructure.Configuration
         {
             //optionsBuilder.UseSqlServer(ObterStringConexao());
             optionsBuilder.UseSqlite(ObterStringConexao());
+            
             base.OnConfiguring(optionsBuilder);
         }
 

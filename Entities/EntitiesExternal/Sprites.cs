@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Entities.EntitiesExternal
 {
-    public class EvolutionChain
+    public class Sprites
     {
-        public string url { get; set; }
+        public string front_default { get; set; }
     }
 }

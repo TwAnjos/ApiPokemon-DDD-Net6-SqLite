@@ -1,4 +1,6 @@
-﻿using Entities.EntitiesExternal;
+﻿using Domain.Interfaces.Generics;
+using Entities.Entities;
+using Entities.EntitiesExternal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Domain.InterfacesExternal
 {
-    public interface IPokemon
+    public interface IPokemon : IGeneric<Pokemon>
     {
-        List<PokemonDetails> List10PokemonRandom();
-        PokemonDetails GetPokemonById(int idPokemon);
-        PokemonDetails GetPokemonByName(string namePokemon);
+        List<Pokemon> List10PokemonRandom();
+        Pokemon GetPokemonById(int idPokemon);
+        Pokemon GetPokemonByName(string namePokemon);
     }
 }

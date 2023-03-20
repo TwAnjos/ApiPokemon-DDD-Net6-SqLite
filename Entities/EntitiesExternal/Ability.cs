@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace Entities.EntitiesExternal
 {
-    public class EvolutionChain
+    public class Ability
     {
-        public string url { get; set; }
+        public AbilityDetails ability { get; set; }
+        public bool is_hidden { get; set; }
+        public int slot { get; set; }
     }
 }

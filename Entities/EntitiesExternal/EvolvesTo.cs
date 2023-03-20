@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace Entities.EntitiesExternal
 {
-    public class EvolutionChain
+    public class EvolvesTo
     {
-        public string url { get; set; }
+        public List<EvolvesTo> evolves_to { get; set; }
+        public bool is_baby { get; set; }
+        public Species species { get; set; }
     }
 }

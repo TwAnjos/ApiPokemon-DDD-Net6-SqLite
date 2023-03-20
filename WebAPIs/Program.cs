@@ -43,10 +43,13 @@ builder.Services.AddRazorPages();
 // Interface e Repositorio
 builder.Services.AddSingleton(typeof(IGeneric<>), typeof(RepositoryGenerics<>));
 builder.Services.AddSingleton<IMessage, RepositoryMessage>();
+builder.Services.AddSingleton<IPokemonsCapturados, RepositoryPokemonsCapturados>();
 builder.Services.AddSingleton<IPokemon, RepositoryPokemon>();
 
 // Servico Dominio
 builder.Services.AddSingleton<IServiceMessage, ServiceMessage>();
+builder.Services.AddSingleton<IServicePokemonsCapturados, ServicePokemonsCapturados>();
+builder.Services.AddSingleton<IServicePokemonsCapturados, ServicePokemonsCapturados>();
 
 //JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -140,12 +143,12 @@ app.UseSwaggerUI(uiOptions =>
 //}
 
 // CORs
-var devClient = "http://localhost:7171";
-app.UseCors(x => x
-.AllowAnyOrigin()
-.AllowAnyMethod()
-.AllowAnyHeader()
-.WithOrigins(devClient));
+//var devClient = "http://localhost:7171";
+//app.UseCors(x => x
+//.AllowAnyOrigin()
+//.AllowAnyMethod()
+//.AllowAnyHeader()
+//.WithOrigins(devClient));
 
 
 app.UseHttpsRedirection();

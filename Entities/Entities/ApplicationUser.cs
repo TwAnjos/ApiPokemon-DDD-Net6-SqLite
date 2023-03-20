@@ -16,5 +16,11 @@ namespace Entities.Entities
 
         [Column("USR_TIPO")]
         public TipoUsuario? Tipo { get; set; }
+
+        [Column("USR_DT_NASCIMENTO")]
+        public DateTime DtNascimento { get; set; }
+
+        [Column("USR_IDADE")]
+        public int Idade { get; set; }
     }
 }

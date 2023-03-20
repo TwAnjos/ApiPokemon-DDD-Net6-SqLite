@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Entities.EntitiesExternal
 {
-    public class EvolutionChain
+    public class Type
     {
-        public string url { get; set; }
+        public int slot { get; set; }
+        public TypeDetails type { get; set; }
     }
 }
