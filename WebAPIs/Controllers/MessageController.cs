@@ -72,7 +72,7 @@ namespace WebAPIs.Controllers
             }
         }
 
-        [Authorize, Produces("application/json"), HttpPost("/api/Delete/{message}")]
+        [Authorize, Produces("application/json"), HttpDelete("/api/Delete/{message}")]
         public async Task<List<Notifies>> Delete(MessageViewModel message)
         {
             try
@@ -87,7 +87,7 @@ namespace WebAPIs.Controllers
             }
         }
 
-        [Authorize, Produces("application/json"), HttpPost("/api/GetEntityById/{message}")]
+        [Authorize, Produces("application/json"), HttpGet("/api/GetEntityById/{message}")]
         public async Task<MessageViewModel> GetEntityById(Message message)
         {
             try
@@ -101,7 +101,7 @@ namespace WebAPIs.Controllers
             }
         }
 
-        [Authorize, Produces("application/json"), HttpPost("/api/GetAll")]
+        [Authorize, Produces("application/json"), HttpGet("/api/GetAll")]
         public async Task<List<MessageViewModel>> GetAll()
         {
             try
@@ -114,7 +114,7 @@ namespace WebAPIs.Controllers
             }
         }
 
-        [Authorize, Produces("application/json"), HttpPost("/api/ListarMensagensAtivas")]
+        [Authorize, Produces("application/json"), HttpGet("/api/ListarMensagensAtivas")]
         public async Task<List<MessageViewModel>> ListarMensagensAtivas()
         {
             try

@@ -25,8 +25,8 @@ namespace WebAPIs.Controllers
 
         [AllowAnonymous]
         [Produces("application/json")]
-        [HttpPost("/api/CriarTokenIdentity")]
-        public async Task<IActionResult> CriarTokenIdentity([FromBody] Login login)
+        [HttpPost("/api/GerarTokenAPI")]
+        public async Task<IActionResult> GerarTokenAPI([FromBody] LoginViewModel login)
         {
             if(string.IsNullOrWhiteSpace(login.email) || string.IsNullOrWhiteSpace(login.senha)) 
             {
@@ -58,8 +58,8 @@ namespace WebAPIs.Controllers
 
         [AllowAnonymous]
         [Produces("application/json")]
-        [HttpPost("/api/AdicionaUsuarioIdentity")]
-        public async Task<IActionResult> AdicionaUsuarioIdentity([FromBody] Login login)
+        [HttpPost("/api/CadastrarUsuarioIdentity")]
+        public async Task<IActionResult> CadastrarUsuarioIdentity([FromBody] AddUserViewModel login)
         {
             if (string.IsNullOrWhiteSpace(login.email) || string.IsNullOrWhiteSpace(login.senha))
             {
@@ -72,6 +72,8 @@ namespace WebAPIs.Controllers
                 Email = login.email,
                 CPF = login.cpf,
                 Tipo = TipoUsuario.Comum,
+                DtNascimento = login.DtNascimento,
+                Idade = login.Idade
             };
 
             var resultado = await _userManager.CreateAsync(user, login.senha);
@@ -98,8 +100,6 @@ namespace WebAPIs.Controllers
             {
                 return BadRequest("Erro ao confirmar usuário");
             }
-
-            return null;
         }
     }
 }

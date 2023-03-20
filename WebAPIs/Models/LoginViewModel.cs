@@ -1,10 +1,10 @@
 ﻿namespace WebAPIs.Models
 {
-    public class Login
+    public class LoginViewModel
     {
         public string email { get; set; }
         public string senha { get; set; }
-        public string cpf { get; set; }
+        //public string cpf { get; set; }
 
     }
 }
