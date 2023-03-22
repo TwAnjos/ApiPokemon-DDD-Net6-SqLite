@@ -5,6 +5,8 @@ using Domain.Interfaces.InterfacesServices;
 using Domain.InterfacesExternal;
 using Domain.Services;
 using Entities.Entities;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Infrastructure.Configuration;
 using Infrastructure.Repository.Generics;
 using Infrastructure.Repository.Repositories;
@@ -15,6 +17,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using WebAPIs.FluentValidations;
 using WebAPIs.Models;
 using WebAPIs.Token;
 
@@ -22,10 +25,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddFluentValidation(config =>
+{
+    config.RegisterValidatorsFromAssembly(typeof(Program).Assembly);
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//builder.Services.AddTransient<IValidator<AddUserViewModel>, AddUserViewModelValidation>();
 
 // ConfigServices
 builder.Services.AddDbContext<ContextBase>(options => options
