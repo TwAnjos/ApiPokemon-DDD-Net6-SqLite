@@ -6,11 +6,11 @@ namespace Domain.Services
 {
     public class ServiceMessage : IServiceMessage
     {
-        private readonly IMessageInfrastructure _IRepositoryMessage;
+        private readonly IMessageInfrastructure _IMessageInfrastructure;
 
-        public ServiceMessage(IMessageInfrastructure iMessage)
+        public ServiceMessage(IMessageInfrastructure iMessageInfrastructure)
         {
-            _IRepositoryMessage = iMessage;
+            _IMessageInfrastructure = iMessageInfrastructure;
         }
 
         public async Task Adicionar(Message message)
@@ -21,7 +21,7 @@ namespace Domain.Services
                 message.DataCadastro = DateTime.Now;
                 message.DataAlteracao = DateTime.Now;
                 message.Ativo = true;
-                await _IRepositoryMessage.Add(message);
+                await _IMessageInfrastructure.Add(message);
             }
         }
 
@@ -31,28 +31,28 @@ namespace Domain.Services
             if (validaTitulo)
             {
                 message.DataAlteracao = DateTime.Now;
-                await _IRepositoryMessage.Update(message);
+                await _IMessageInfrastructure.Update(message);
             }
         }
 
         public Task Delete(Message messageMap)
         {
-            return _IRepositoryMessage.Delete(messageMap);
+            return _IMessageInfrastructure.Delete(messageMap);
         }
 
         public Task<List<Message>> GetAll()
         {
-            return _IRepositoryMessage.GetAll();
+            return _IMessageInfrastructure.GetAll();
         }
 
         public Task<Message> GetEntityById(int id)
         {
-            return _IRepositoryMessage.GetEntityById(id);
+            return _IMessageInfrastructure.GetEntityById(id);
         }
 
         public async Task<List<Message>> ListarMensagensAtivas()
         {
-            return await _IRepositoryMessage.ListarMessage(n => n.Ativo);
+            return await _IMessageInfrastructure.ListarMessage(n => n.Ativo);
         }
     }
 }

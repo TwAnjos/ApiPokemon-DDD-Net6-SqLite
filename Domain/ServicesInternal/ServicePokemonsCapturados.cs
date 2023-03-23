@@ -11,10 +11,10 @@ namespace Domain.Services
 {
     public class ServicePokemonsCapturados : IServicePokemonsCapturados
     {
-        private readonly IPokemonsCapturadosInfrastructure _IPokemonsCapturados;
-        public ServicePokemonsCapturados(IPokemonsCapturadosInfrastructure iPokemonsCapturadosk)
+        private readonly IPokemonsCapturadosInfrastructure _IPokemonsCapturadosInfrastructure;
+        public ServicePokemonsCapturados(IPokemonsCapturadosInfrastructure iPokemonsCapturadosInfrastructure)
         {
-            _IPokemonsCapturados = iPokemonsCapturadosk;
+            _IPokemonsCapturadosInfrastructure = iPokemonsCapturadosInfrastructure;
         }
 
         public async Task Adicionar(PokemonsCapturados pokemonsCapturados)
@@ -25,7 +25,7 @@ namespace Domain.Services
                 pokemonsCapturados.DataCapturado = DateTime.Now;
                 pokemonsCapturados.DataAlteracao = DateTime.Now;
                 pokemonsCapturados.Ativo = true;
-                await _IPokemonsCapturados.Add(pokemonsCapturados);
+                await _IPokemonsCapturadosInfrastructure.Add(pokemonsCapturados);
             }
             else
             {
@@ -39,13 +39,13 @@ namespace Domain.Services
             if (validaTitulo)
             {
                 pokemonsCapturados.DataAlteracao = DateTime.Now;
-                await _IPokemonsCapturados.Add(pokemonsCapturados);
+                await _IPokemonsCapturadosInfrastructure.Add(pokemonsCapturados);
             }
         }
 
         public async Task<List<PokemonsCapturados>> ListarPokemonsCapturadosAtivos(string userId)
         {
-            return await _IPokemonsCapturados.ListarPokemonsCapturados(p => p.Ativo && p.UserId == userId);
+            return await _IPokemonsCapturadosInfrastructure.ListarPokemonsCapturados(p => p.Ativo && p.UserId == userId);
         }
     }
 }

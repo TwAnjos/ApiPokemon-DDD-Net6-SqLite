@@ -12,16 +12,16 @@ namespace Domain.Services
 {
     public class ServiceApplicationUser : IServiceApplicationUser
     {
-        private readonly IApplicationUserInfrastructure _IRepositoryApplicationUser;
+        private readonly IApplicationUserInfrastructure _IApplicationUserInfrastructure;
 
-        public ServiceApplicationUser(IApplicationUserInfrastructure iApplicationUser)
+        public ServiceApplicationUser(IApplicationUserInfrastructure iApplicationUserInfrastructure)
         {
-            _IRepositoryApplicationUser = iApplicationUser;
+            _IApplicationUserInfrastructure = iApplicationUserInfrastructure;
         }
 
         public async Task<List<ApplicationUser>> ListarApplicationUsers()
         {
-            var teste = await _IRepositoryApplicationUser.ListarApplicationUsers(n => n.EmailConfirmed);
+            var teste = await _IApplicationUserInfrastructure.ListarApplicationUsers(n => n.EmailConfirmed);
             return teste;
         }
 
