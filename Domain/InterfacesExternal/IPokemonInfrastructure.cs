@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Domain.InterfacesExternal
 {
-    public interface IPokemon : IGeneric<Pokemon>
+    public interface IPokemonInfrastructure : IGeneric<Pokemon>
     {
         List<Pokemon> List10PokemonRandom();
         Pokemon GetPokemonById(int idPokemon);

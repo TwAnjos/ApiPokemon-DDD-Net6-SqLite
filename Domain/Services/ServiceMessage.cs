@@ -11,11 +11,11 @@ namespace Domain.Services
 {
     public class ServiceMessage : IServiceMessage
     {
-        private readonly IMessage _IMessage;
+        private readonly IMessageInfrastructure _IRepositoryMessage;
 
-        public ServiceMessage(IMessage iMessage)
+        public ServiceMessage(IMessageInfrastructure iMessage)
         {
-            _IMessage = iMessage;
+            _IRepositoryMessage = iMessage;
         }
 
         public async Task Adicionar(Message message)
@@ -26,7 +26,7 @@ namespace Domain.Services
                 message.DataCadastro = DateTime.Now;
                 message.DataAlteracao = DateTime.Now;
                 message.Ativo = true;
-                await _IMessage.Add(message);
+                await _IRepositoryMessage.Add(message);
             }
         }
 
@@ -36,13 +36,13 @@ namespace Domain.Services
             if (validaTitulo)
             {
                 message.DataAlteracao = DateTime.Now;
-                await _IMessage.Update(message);
+                await _IRepositoryMessage.Update(message);
             }
         }
 
         public async Task<List<Message>> ListarMensagensAtivas()
         {
-            return await _IMessage.ListarMessage(n => n.Ativo);
+            return await _IRepositoryMessage.ListarMessage(n => n.Ativo);
         }
     }
 }

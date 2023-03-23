@@ -12,13 +12,13 @@ namespace WebAPIs.Controllers
     public class MessageController : ControllerBase
     {
         private readonly IMapper _IMapper;
-        private readonly IMessage _IMessage;
+        private readonly IMessageInfrastructure _IRepositoryMessage;
         private readonly IServiceMessage _IServiceMessage;
 
-        public MessageController(IMapper iMapper, IMessage iMessage, IServiceMessage iServiceMessage)
+        public MessageController(IMapper iMapper, IMessageInfrastructure iMessage, IServiceMessage iServiceMessage)
         {
             _IMapper = iMapper;
-            _IMessage = iMessage;
+            _IRepositoryMessage = iMessage;
             _IServiceMessage = iServiceMessage;
         }
 
@@ -78,7 +78,7 @@ namespace WebAPIs.Controllers
             try
             {
                 var messageMap = _IMapper.Map<Message>(message);
-                await _IMessage.Delete(messageMap);
+                await _IRepositoryMessage.Delete(messageMap);
                 return messageMap.ListNotifies;
             }
             catch (Exception ex)
@@ -92,7 +92,7 @@ namespace WebAPIs.Controllers
         {
             try
             {
-                message = await _IMessage.GetEntityById(message.Id);
+                message = await _IRepositoryMessage.GetEntityById(message.Id);
                 return _IMapper.Map<MessageViewModel>(message);
             }
             catch (Exception ex)
@@ -106,7 +106,7 @@ namespace WebAPIs.Controllers
         {
             try
             {
-                return _IMapper.Map<List<MessageViewModel>>(await _IMessage.GetAll());
+                return _IMapper.Map<List<MessageViewModel>>(await _IRepositoryMessage.GetAll());
             }
             catch (Exception ex)
             {

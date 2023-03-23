@@ -11,8 +11,8 @@ namespace Domain.Services
 {
     public class ServicePokemonsCapturados : IServicePokemonsCapturados
     {
-        private readonly IPokemonsCapturados _IPokemonsCapturados;
-        public ServicePokemonsCapturados(IPokemonsCapturados iPokemonsCapturadosk)
+        private readonly IPokemonsCapturadosInfrastructure _IPokemonsCapturados;
+        public ServicePokemonsCapturados(IPokemonsCapturadosInfrastructure iPokemonsCapturadosk)
         {
             _IPokemonsCapturados = iPokemonsCapturadosk;
         }

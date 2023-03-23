@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repository.Repositories
 {
-    public class RepositoryPokemonsCapturados : RepositoryGenerics<PokemonsCapturados>, IPokemonsCapturados
+    public class RepositoryPokemonsCapturados : RepositoryGenerics<PokemonsCapturados>, IPokemonsCapturadosInfrastructure
     {
         private readonly DbContextOptions<ContextBase> _OptionBuilder;
         public RepositoryPokemonsCapturados()

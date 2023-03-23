@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repository.RepositoryExternal
 {
-    public class RepositoryPokemon : RepositoryGenerics<Pokemon>,  IPokemon
+    public class RepositoryPokemon : RepositoryGenerics<Pokemon>,  IPokemonInfrastructure
     {
         //https://pokeapi.co/api/v2/pokemon/1
         private readonly string urlApi = "https://pokeapi.co/api/v2/pokemon/";

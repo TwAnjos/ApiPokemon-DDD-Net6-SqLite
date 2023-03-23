@@ -14,10 +14,10 @@ namespace WebAPIs.Controllers
     public class PokemonController : ControllerBase
     {
         private readonly IMapper _IMapper;
-        private readonly IPokemon _IPokemon;
+        private readonly IPokemonInfrastructure _IPokemon;
         private readonly IServicePokemonsCapturados _IServicePokemonsCapturados;
 
-        public PokemonController(IMapper iMapper, IPokemon iPokemon, IServicePokemonsCapturados iServicePokemonsCapturados)
+        public PokemonController(IMapper iMapper, IPokemonInfrastructure iPokemon, IServicePokemonsCapturados iServicePokemonsCapturados)
         {
             _IMapper = iMapper;
             _IPokemon = iPokemon;

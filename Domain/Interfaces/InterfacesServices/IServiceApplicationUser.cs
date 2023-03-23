@@ -7,10 +7,10 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Interfaces
+namespace Domain.Interfaces.InterfacesServices
 {
-    public interface IPokemonsCapturados : IGeneric<PokemonsCapturados>
+    public interface IServiceApplicationUser
     {
-        Task<List<PokemonsCapturados>> ListarPokemonsCapturados(Expression<Func<PokemonsCapturados, bool>> expression);
+        Task<List<ApplicationUser>> ListarApplicationUsers();
     }
 }

@@ -43,16 +43,16 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
-// Interface e Repositorio
-builder.Services.AddSingleton(typeof(IGeneric<>), typeof(RepositoryGenerics<>));
-builder.Services.AddSingleton<IMessage, RepositoryMessage>();
-builder.Services.AddSingleton<IPokemonsCapturados, RepositoryPokemonsCapturados>();
-builder.Services.AddSingleton<IPokemon, RepositoryPokemon>();
-
 // Servico Dominio
 builder.Services.AddSingleton<IServiceMessage, ServiceMessage>();
 builder.Services.AddSingleton<IServicePokemonsCapturados, ServicePokemonsCapturados>();
 builder.Services.AddSingleton<IServicePokemonsCapturados, ServicePokemonsCapturados>();
+
+// Interface e Repositorio
+builder.Services.AddSingleton(typeof(IGeneric<>), typeof(RepositoryGenerics<>));
+builder.Services.AddSingleton<IMessageInfrastructure, RepositoryMessage>();
+builder.Services.AddSingleton<IPokemonsCapturadosInfrastructure, RepositoryPokemonsCapturados>();
+builder.Services.AddSingleton<IPokemonInfrastructure, RepositoryPokemon>();
 
 //JWT Tokens
 builder.Services.AddAuthentication(JWTConfig.GetJWTConfig()).AddJwtBearer(JWTConfig.AddJwtBearerConfig(builder));
