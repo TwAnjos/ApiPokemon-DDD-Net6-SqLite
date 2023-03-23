@@ -1,9 +1,11 @@
 using AutoMapper;
 using Domain.Interfaces;
-using Domain.Interfaces.Generics;
 using Domain.Interfaces.InterfacesServices;
 using Domain.InterfacesExternal;
+using Domain.InterfacesExternal.InterfacesServices;
 using Domain.Services;
+using Domain.ServicesExternal;
+using Domain.Utils.InterfaceGenerics;
 using Entities.Entities;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -46,7 +48,7 @@ builder.Services.AddRazorPages();
 // Servico Dominio
 builder.Services.AddSingleton<IServiceMessage, ServiceMessage>();
 builder.Services.AddSingleton<IServicePokemonsCapturados, ServicePokemonsCapturados>();
-builder.Services.AddSingleton<IServicePokemonsCapturados, ServicePokemonsCapturados>();
+builder.Services.AddSingleton<IServicePokemon, ServicePokemon>();
 
 // Interface e Repositorio
 builder.Services.AddSingleton(typeof(IGeneric<>), typeof(RepositoryGenerics<>));

@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
-using Domain.Interfaces;
 using Domain.Interfaces.InterfacesServices;
-using Domain.InterfacesExternal;
+using Domain.InterfacesExternal.InterfacesServices;
 using Entities.Entities;
 using Entities.EntitiesExternal;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WebAPIs.Models;
 
 namespace WebAPIs.Controllers
 {
@@ -14,14 +12,15 @@ namespace WebAPIs.Controllers
     public class PokemonController : ControllerBase
     {
         private readonly IMapper _IMapper;
-        private readonly IPokemonInfrastructure _IPokemon;
         private readonly IServicePokemonsCapturados _IServicePokemonsCapturados;
 
-        public PokemonController(IMapper iMapper, IPokemonInfrastructure iPokemon, IServicePokemonsCapturados iServicePokemonsCapturados)
+        private readonly IServicePokemon _IServicePokemon;
+
+        public PokemonController(IMapper iMapper, IServicePokemonsCapturados iServicePokemonsCapturados, IServicePokemon iServicePokemon)
         {
             _IMapper = iMapper;
-            _IPokemon = iPokemon;
             _IServicePokemonsCapturados = iServicePokemonsCapturados;
+            _IServicePokemon = iServicePokemon;
         }
 
         private async Task<string> RetornaIdUsuarioLogado()
@@ -45,15 +44,16 @@ namespace WebAPIs.Controllers
         [Authorize, Produces("application/json"), HttpGet("/api/List10PokemonRandom")]
         public IActionResult List10PokemonRandom()
         {
-            List<Pokemon> pokemon = _IPokemon.List10PokemonRandom();
+            List<Pokemon> pokemon = _IServicePokemon.List10PokemonRandom();
             return Ok(pokemon);
         }
 
         [Authorize, Produces("application/json"), HttpGet("/api/GetPokemonById/{idPokemon}")]
         public IActionResult GetPokemonById(int idPokemon)
         {
-            Pokemon pokemon = _IPokemon.GetPokemonById(idPokemon);
-            if (pokemon == null) { 
+            Pokemon pokemon = _IServicePokemon.GetPokemonById(idPokemon);
+            if (pokemon == null)
+            {
                 return NotFound("Pokemon não foi encontrado.");
             }
             return Ok(pokemon);
@@ -62,7 +62,7 @@ namespace WebAPIs.Controllers
         [Authorize, Produces("application/json"), HttpGet("/api/GetPokemonByName/{GetPokemonByName}")]
         public IActionResult GetPokemonByName(string GetPokemonByName)
         {
-            Pokemon pokemon = _IPokemon.GetPokemonByName(GetPokemonByName);
+            Pokemon pokemon = _IServicePokemon.GetPokemonByName(GetPokemonByName);
             if (pokemon == null)
             {
                 return NotFound("Pokemon não foi encontrado.");
@@ -80,7 +80,7 @@ namespace WebAPIs.Controllers
                     return BadRequest("pokemonNameOrId não pode ser Null Or White Space");
                 }
 
-                Pokemon pokemon = _IPokemon.GetPokemonByName(pokemonNameOrId);
+                Pokemon pokemon = _IServicePokemon.GetPokemonByName(pokemonNameOrId);
                 if (pokemon is null)
                 {
                     return NotFound("Pokemon não foi encontrado.");

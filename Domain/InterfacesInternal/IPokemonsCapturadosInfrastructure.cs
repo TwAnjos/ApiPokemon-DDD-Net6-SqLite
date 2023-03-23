@@ -1,4 +1,4 @@
-﻿using Domain.Interfaces.Generics;
+﻿using Domain.Utils.InterfaceGenerics;
 using Entities.Entities;
 using System;
 using System.Collections.Generic;
