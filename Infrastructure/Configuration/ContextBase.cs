@@ -20,7 +20,10 @@ namespace Infrastructure.Configuration
 
         public DbSet<Message> Message { get; set; }
         public DbSet<PokemonsCapturados> PokemonsCapturados { get; set; }
-        public DbSet<ApplicationUser> ASpplicationUsers { get; set; }
+        public DbSet<ApplicationUser> ApplicationUser { get; set; }
+
+        public DbSet<Telefone> Telefone { get; set; }
+        public DbSet<UserEndereco> UserEndereco { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -33,7 +36,7 @@ namespace Infrastructure.Configuration
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<ApplicationUser>().ToTable("AspNetUsers").HasKey(t => t.Id);
+            builder.Entity<ApplicationUser>().ToTable("TB_USER").HasKey(t => t.Id);
             base.OnModelCreating(builder);
         }
 

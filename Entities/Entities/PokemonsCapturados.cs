@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -7,9 +8,10 @@ using System.Threading.Tasks;
 
 namespace Entities.Entities
 {
-    [Table("TB_PokemonsCapturados")]
+    [Table("TB_POKEMONS_CAPTURADOS")]
     public class PokemonsCapturados: Notifies
     {
+        [Key]
         [Column("PKM_ID")]
         public int Id { get; set; }
 
@@ -29,8 +31,7 @@ namespace Entities.Entities
         public DateTime DataAlteracao { get; set; }
 
         [ForeignKey("ApplicationUser")]
-
-        [Column(Order = 1)]
+        [Column("PKM_USR_ID", Order = 1)]
         public string UserId { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
     }

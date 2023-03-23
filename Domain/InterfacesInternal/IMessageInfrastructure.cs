@@ -1,4 +1,4 @@
-﻿using Domain.Interfaces.Generics;
+﻿using Domain.Utils.InterfaceGenerics;
 using Entities.Entities;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Interfaces
 {
-    public interface IMessage: IGeneric<Message>
+    public interface IMessageInfrastructure: IGeneric<Message>
     {
         Task<List<Message>> ListarMessage(Expression<Func<Message, bool>> expression);
     }

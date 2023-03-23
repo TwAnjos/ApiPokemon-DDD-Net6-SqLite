@@ -26,8 +26,7 @@ namespace Infrastructure.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("CPF")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
+                        .HasColumnType("VARCHAR(11)")
                         .HasColumnName("USR_CPF");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -45,7 +44,11 @@ namespace Infrastructure.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Idade")
+                    b.Property<char?>("Genero")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("USR_GENERO");
+
+                    b.Property<int?>("Idade")
                         .HasColumnType("INTEGER")
                         .HasColumnName("USR_IDADE");
 
@@ -71,6 +74,10 @@ namespace Infrastructure.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("RG")
+                        .HasColumnType("VARCHAR(11)")
+                        .HasColumnName("USR_RG");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("TEXT");
@@ -117,9 +124,15 @@ namespace Infrastructure.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("MSN_DATA_CADASTRO");
 
+                    b.Property<string>("Mensagem")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("MSN_MENSAGEM");
+
                     b.Property<string>("Titulo")
                         .IsRequired()
-                        .HasMaxLength(255)
+                        .HasMaxLength(150)
                         .HasColumnType("TEXT")
                         .HasColumnName("MSN_TITULO");
 
@@ -166,13 +179,80 @@ namespace Infrastructure.Migrations
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("TEXT")
+                        .HasColumnName("PKM_USR_ID")
                         .HasColumnOrder(1);
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("TB_PokemonsCapturados");
+                    b.ToTable("TB_POKEMONS_CAPTURADOS");
+                });
+
+            modelBuilder.Entity("Entities.Entities.Telefone", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("TLF_ID");
+
+                    b.Property<string>("NumeroTelefone")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("TLF_TELEFONE");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("TLF_USR_ID")
+                        .HasColumnOrder(1);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TB_TELEFONE");
+                });
+
+            modelBuilder.Entity("Entities.Entities.UserEndereco", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("END_ID");
+
+                    b.Property<string>("CEP")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("END_CEP");
+
+                    b.Property<string>("Complemento")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("END_COMPLEMENTO");
+
+                    b.Property<string>("Endereco")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("END_ENDERECO");
+
+                    b.Property<string>("Municipio")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("END_MUNICIPIO");
+
+                    b.Property<string>("Numero")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("END_NUMERO");
+
+                    b.Property<string>("Pais")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("END_PAIS");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("END_USR_ID")
+                        .HasColumnOrder(1);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TB_USER_ENDERECO");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -329,6 +409,24 @@ namespace Infrastructure.Migrations
                     b.Navigation("ApplicationUser");
                 });
 
+            modelBuilder.Entity("Entities.Entities.Telefone", b =>
+                {
+                    b.HasOne("Entities.Entities.ApplicationUser", "ApplicationUser")
+                        .WithMany("Telefones")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("ApplicationUser");
+                });
+
+            modelBuilder.Entity("Entities.Entities.UserEndereco", b =>
+                {
+                    b.HasOne("Entities.Entities.ApplicationUser", "ApplicationUser")
+                        .WithMany("User_Enderecos")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("ApplicationUser");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -378,6 +476,13 @@ namespace Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Entities.Entities.ApplicationUser", b =>
+                {
+                    b.Navigation("Telefones");
+
+                    b.Navigation("User_Enderecos");
                 });
 #pragma warning restore 612, 618
         }

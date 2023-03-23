@@ -98,7 +98,7 @@ namespace WebAPIs.Controllers
             }
             else
             {
-                return BadRequest("Erro ao confirmar usuário");
+                return BadRequest("Erro ao cadastrar usuário");
             }
         }
     }
