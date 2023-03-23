@@ -11,6 +11,8 @@ namespace Domain.Interfaces.InterfacesServices
     {
         Task Adicionar(PokemonsCapturados pokemonsCapturados);
         Task Atualizar(PokemonsCapturados pokemonsCapturados);
+        Task<PokemonsCapturados> GetPokemonByName(string pokemonName);
         Task<List<PokemonsCapturados>> ListarPokemonsCapturadosAtivos(string userId);
+        void RemoveById(PokemonsCapturados? pk);
     }
 }

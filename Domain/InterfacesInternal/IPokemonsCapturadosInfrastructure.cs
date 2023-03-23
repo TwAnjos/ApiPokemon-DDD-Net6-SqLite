@@ -1,4 +1,4 @@
-﻿using Domain.Interfaces.Generics;
+﻿using Domain.Utils.InterfaceGenerics;
 using Entities.Entities;
 using System;
 using System.Collections.Generic;
@@ -9,8 +9,9 @@ using System.Threading.Tasks;
 
 namespace Domain.Interfaces
 {
-    public interface IPokemonsCapturados : IGeneric<PokemonsCapturados>
+    public interface IPokemonsCapturadosInfrastructure : IGeneric<PokemonsCapturados>
     {
+        PokemonsCapturados GetByName(string pokemonName);
         Task<List<PokemonsCapturados>> ListarPokemonsCapturados(Expression<Func<PokemonsCapturados, bool>> expression);
     }
 }

@@ -15,8 +15,12 @@ namespace Entities.Entities
         public int Id { get; set; }
 
         [Column("MSN_TITULO")]
-        [MaxLength(255)]
+        [MaxLength(150)]
         public string Titulo { get; set; }
+
+        [Column("MSN_MENSAGEM")]
+        [MaxLength(300)]
+        public string Mensagem { get; set; }
 
         [Column("MSN_ATIVO")]
         public bool Ativo { get; set; }

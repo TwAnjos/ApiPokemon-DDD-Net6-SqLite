@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ContextBase))]
-    [Migration("20230318031931_inicial_dev_pokemon")]
-    partial class inicial_dev_pokemon
+    [Migration("20230323173352_startMigrationDB")]
+    partial class startMigrationDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,13 +28,16 @@ namespace Infrastructure.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("CPF")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
+                        .HasColumnType("VARCHAR(11)")
                         .HasColumnName("USR_CPF");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DtNascimento")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("USR_DT_NASCIMENTO");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -42,6 +45,14 @@ namespace Infrastructure.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("INTEGER");
+
+                    b.Property<char?>("Genero")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("USR_GENERO");
+
+                    b.Property<int?>("Idade")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("USR_IDADE");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("INTEGER");
@@ -65,6 +76,10 @@ namespace Infrastructure.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("RG")
+                        .HasColumnType("VARCHAR(11)")
+                        .HasColumnName("USR_RG");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("TEXT");
@@ -111,9 +126,15 @@ namespace Infrastructure.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("MSN_DATA_CADASTRO");
 
+                    b.Property<string>("Mensagem")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("MSN_MENSAGEM");
+
                     b.Property<string>("Titulo")
                         .IsRequired()
-                        .HasMaxLength(255)
+                        .HasMaxLength(150)
                         .HasColumnType("TEXT")
                         .HasColumnName("MSN_TITULO");
 
@@ -127,6 +148,113 @@ namespace Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("TB_MESSAGE");
+                });
+
+            modelBuilder.Entity("Entities.Entities.PokemonsCapturados", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("PKM_ID");
+
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("PKM_ATIVO");
+
+                    b.Property<DateTime>("DataAlteracao")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("PKM_DATA_ALTERACAO");
+
+                    b.Property<DateTime>("DataCapturado")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("PKM_DATA_CAPTURADO");
+
+                    b.Property<int>("PokemonId")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("PKM_ID");
+
+                    b.Property<string>("PokemonName")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("PKM_NOME");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("PKM_USR_ID")
+                        .HasColumnOrder(1);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TB_POKEMONS_CAPTURADOS");
+                });
+
+            modelBuilder.Entity("Entities.Entities.Telefone", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("TLF_ID");
+
+                    b.Property<string>("NumeroTelefone")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("TLF_TELEFONE");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("TLF_USR_ID")
+                        .HasColumnOrder(1);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TB_TELEFONE");
+                });
+
+            modelBuilder.Entity("Entities.Entities.UserEndereco", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("END_ID");
+
+                    b.Property<string>("CEP")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("END_CEP");
+
+                    b.Property<string>("Complemento")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("END_COMPLEMENTO");
+
+                    b.Property<string>("Endereco")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("END_ENDERECO");
+
+                    b.Property<string>("Municipio")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("END_MUNICIPIO");
+
+                    b.Property<string>("Numero")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("END_NUMERO");
+
+                    b.Property<string>("Pais")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("END_PAIS");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("END_USR_ID")
+                        .HasColumnOrder(1);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TB_USER_ENDERECO");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -272,6 +400,35 @@ namespace Infrastructure.Migrations
                     b.Navigation("ApplicationUser");
                 });
 
+            modelBuilder.Entity("Entities.Entities.PokemonsCapturados", b =>
+                {
+                    b.HasOne("Entities.Entities.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+                });
+
+            modelBuilder.Entity("Entities.Entities.Telefone", b =>
+                {
+                    b.HasOne("Entities.Entities.ApplicationUser", "ApplicationUser")
+                        .WithMany("Telefones")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("ApplicationUser");
+                });
+
+            modelBuilder.Entity("Entities.Entities.UserEndereco", b =>
+                {
+                    b.HasOne("Entities.Entities.ApplicationUser", "ApplicationUser")
+                        .WithMany("User_Enderecos")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("ApplicationUser");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -321,6 +478,13 @@ namespace Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Entities.Entities.ApplicationUser", b =>
+                {
+                    b.Navigation("Telefones");
+
+                    b.Navigation("User_Enderecos");
                 });
 #pragma warning restore 612, 618
         }

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repository.Repositories
 {
-    public class RepositoryMessage : RepositoryGenerics<Message>, IMessage
+    public class RepositoryMessage : RepositoryGenerics<Message>, IMessageInfrastructure
     {
         private readonly DbContextOptions<ContextBase> _OptionBuilder;
         public RepositoryMessage()

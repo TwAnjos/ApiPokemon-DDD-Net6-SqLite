@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Interfaces.Generics
+namespace Domain.Utils.InterfaceGenerics
 {
     public interface IGeneric<T> where T : class
     {
@@ -12,6 +12,6 @@ namespace Domain.Interfaces.Generics
         Task Update(T entity);
         Task Delete(T entity);
         Task<T> GetEntityById(int Id);
-        Task<List<T>> GetAll();       
+        Task<List<T>> GetAll();
     }
 }
