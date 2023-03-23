@@ -35,6 +35,21 @@ namespace Domain.Services
             }
         }
 
+        public Task Delete(Message messageMap)
+        {
+            return _IRepositoryMessage.Delete(messageMap);
+        }
+
+        public Task<List<Message>> GetAll()
+        {
+            return _IRepositoryMessage.GetAll();
+        }
+
+        public Task<Message> GetEntityById(int id)
+        {
+            return _IRepositoryMessage.GetEntityById(id);
+        }
+
         public async Task<List<Message>> ListarMensagensAtivas()
         {
             return await _IRepositoryMessage.ListarMessage(n => n.Ativo);

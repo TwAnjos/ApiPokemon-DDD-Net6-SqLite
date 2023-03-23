@@ -7,22 +7,14 @@ using Domain.Services;
 using Domain.ServicesExternal;
 using Domain.Utils.InterfaceGenerics;
 using Entities.Entities;
-using FluentValidation;
 using FluentValidation.AspNetCore;
 using Infrastructure.Configuration;
 using Infrastructure.Repository.Generics;
 using Infrastructure.Repository.Repositories;
 using Infrastructure.Repository.RepositoryExternal;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-using System.Reflection;
-using WebAPIs.FluentValidations;
 using WebAPIs.Models;
 using WebAPIs.ProgramConfigs;
-using WebAPIs.Token;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -60,7 +52,7 @@ builder.Services.AddSingleton<IPokemonInfrastructure, RepositoryPokemon>();
 builder.Services.AddAuthentication(JWTConfig.GetJWTConfig()).AddJwtBearer(JWTConfig.AddJwtBearerConfig(builder));
 
 // Mapper
-var config = new MapperConfiguration( cfg =>
+var config = new MapperConfiguration(cfg =>
 {
     cfg.CreateMap<MessageViewModel, Message>();
     cfg.CreateMap<Message, MessageViewModel>();
@@ -77,7 +69,7 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI(SwaggerConfig.GetEndpoint());
 
- //CORs
+//CORs
 var devClient = "http://localhost:7171";
 app.UseCors(x => x
 .AllowAnyOrigin()

@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ContextBase))]
-    [Migration("20230322022026_addfluentvalidation")]
-    partial class addfluentvalidation
+    [Migration("20230323173352_startMigrationDB")]
+    partial class startMigrationDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -126,9 +126,15 @@ namespace Infrastructure.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("MSN_DATA_CADASTRO");
 
+                    b.Property<string>("Mensagem")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("MSN_MENSAGEM");
+
                     b.Property<string>("Titulo")
                         .IsRequired()
-                        .HasMaxLength(255)
+                        .HasMaxLength(150)
                         .HasColumnType("TEXT")
                         .HasColumnName("MSN_TITULO");
 

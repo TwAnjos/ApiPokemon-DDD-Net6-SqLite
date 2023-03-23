@@ -12,13 +12,11 @@ namespace WebAPIs.Controllers
     public class MessageController : ControllerBase
     {
         private readonly IMapper _IMapper;
-        private readonly IMessageInfrastructure _IRepositoryMessage;
         private readonly IServiceMessage _IServiceMessage;
 
-        public MessageController(IMapper iMapper, IMessageInfrastructure iMessage, IServiceMessage iServiceMessage)
+        public MessageController(IMapper iMapper, IServiceMessage iServiceMessage)
         {
             _IMapper = iMapper;
-            _IRepositoryMessage = iMessage;
             _IServiceMessage = iServiceMessage;
         }
 
@@ -40,8 +38,8 @@ namespace WebAPIs.Controllers
             }
         }
 
-        [Authorize, Produces("application/json"), HttpPost("/api/Add/{message}")]
-        public async Task<List<Notifies>> Add(MessageViewModel message)
+        [Authorize, Produces("application/json"), HttpPost("/api/Add/")]
+        public async Task<List<Notifies>> Add( [FromBody] MessageViewModel message)
         {
             try
             {
@@ -58,7 +56,7 @@ namespace WebAPIs.Controllers
         }
 
         [Authorize, Produces("application/json"), HttpPost("/api/Update/{message}")]
-        public async Task<List<Notifies>> Update(MessageViewModel message)
+        public async Task<List<Notifies>> Update([FromBody] MessageViewModel message)
         {
             try
             {
@@ -73,12 +71,12 @@ namespace WebAPIs.Controllers
         }
 
         [Authorize, Produces("application/json"), HttpDelete("/api/Delete/{message}")]
-        public async Task<List<Notifies>> Delete(MessageViewModel message)
+        public async Task<List<Notifies>> Delete([FromBody] MessageViewModel message)
         {
             try
             {
                 var messageMap = _IMapper.Map<Message>(message);
-                await _IRepositoryMessage.Delete(messageMap);
+                await _IServiceMessage.Delete(messageMap);
                 return messageMap.ListNotifies;
             }
             catch (Exception ex)
@@ -88,11 +86,11 @@ namespace WebAPIs.Controllers
         }
 
         [Authorize, Produces("application/json"), HttpGet("/api/GetEntityById/{message}")]
-        public async Task<MessageViewModel> GetEntityById(Message message)
+        public async Task<MessageViewModel> GetEntityById([FromBody] Message message)
         {
             try
             {
-                message = await _IRepositoryMessage.GetEntityById(message.Id);
+                message = await _IServiceMessage.GetEntityById(message.Id);
                 return _IMapper.Map<MessageViewModel>(message);
             }
             catch (Exception ex)
@@ -106,7 +104,7 @@ namespace WebAPIs.Controllers
         {
             try
             {
-                return _IMapper.Map<List<MessageViewModel>>(await _IRepositoryMessage.GetAll());
+                return _IMapper.Map<List<MessageViewModel>>(await _IServiceMessage.GetAll());
             }
             catch (Exception ex)
             {

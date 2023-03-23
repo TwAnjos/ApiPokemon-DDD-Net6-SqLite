@@ -1,11 +1,6 @@
 ﻿using Domain.InterfacesExternal;
 using Domain.InterfacesExternal.InterfacesServices;
 using Entities.EntitiesExternal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.ServicesExternal
 {
@@ -20,7 +15,7 @@ namespace Domain.ServicesExternal
 
         public Pokemon GetPokemonById(int idPokemon)
         {
-           return _IPokemonInfrastructure.GetPokemonById(idPokemon);
+            return _IPokemonInfrastructure.GetPokemonById(idPokemon);
         }
 
         public Pokemon GetPokemonByName(string namePokemon)

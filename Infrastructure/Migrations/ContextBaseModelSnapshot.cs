@@ -124,9 +124,15 @@ namespace Infrastructure.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("MSN_DATA_CADASTRO");
 
+                    b.Property<string>("Mensagem")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("MSN_MENSAGEM");
+
                     b.Property<string>("Titulo")
                         .IsRequired()
-                        .HasMaxLength(255)
+                        .HasMaxLength(150)
                         .HasColumnType("TEXT")
                         .HasColumnName("MSN_TITULO");
 

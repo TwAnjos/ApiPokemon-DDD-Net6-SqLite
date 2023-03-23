@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Infrastructure.Migrations
 {
-    public partial class addfluentvalidation : Migration
+    public partial class startMigrationDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -167,7 +167,8 @@ namespace Infrastructure.Migrations
                     UserId = table.Column<string>(type: "TEXT", nullable: false),
                     MSN_ID = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    MSN_TITULO = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
+                    MSN_TITULO = table.Column<string>(type: "TEXT", maxLength: 150, nullable: false),
+                    MSN_MENSAGEM = table.Column<string>(type: "TEXT", maxLength: 300, nullable: false),
                     MSN_ATIVO = table.Column<bool>(type: "INTEGER", nullable: false),
                     MSN_DATA_CADASTRO = table.Column<DateTime>(type: "TEXT", nullable: false),
                     MSN_DATA_ALTERACAO = table.Column<DateTime>(type: "TEXT", nullable: false)
