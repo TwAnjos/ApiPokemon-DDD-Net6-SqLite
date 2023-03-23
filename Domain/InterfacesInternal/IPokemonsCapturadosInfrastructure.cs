@@ -11,6 +11,7 @@ namespace Domain.Interfaces
 {
     public interface IPokemonsCapturadosInfrastructure : IGeneric<PokemonsCapturados>
     {
+        PokemonsCapturados GetByName(string pokemonName);
         Task<List<PokemonsCapturados>> ListarPokemonsCapturados(Expression<Func<PokemonsCapturados, bool>> expression);
     }
 }

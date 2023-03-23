@@ -114,5 +114,25 @@ namespace WebAPIs.Controllers
                 return BadRequest("Erro ao retornar lista");
             }
         }
+
+        [Authorize, Produces("application/json"), HttpDelete("/api/RemoverPokemonByName/{pokemonName}")]
+        public async Task<IActionResult> RemoverPokemonByName(string pokemonName)
+        {
+            try
+            {
+                PokemonsCapturados pk = await _IServicePokemonsCapturados.GetPokemonByName(pokemonName);
+                if (pk is null)
+                {
+                    return NotFound("Objeto não encontrado");
+                }
+                _IServicePokemonsCapturados.RemoveById(pk);
+
+                return Ok($"O Pokemon {pk.PokemonName} foi removido.");
+            }
+            catch (Exception)
+            {
+                return BadRequest("Erro ao remover pokemon");
+            }
+        }
     }
 }
