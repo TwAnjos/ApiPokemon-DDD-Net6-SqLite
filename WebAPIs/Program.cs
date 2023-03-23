@@ -19,23 +19,18 @@ using Microsoft.OpenApi.Models;
 using System.Reflection;
 using WebAPIs.FluentValidations;
 using WebAPIs.Models;
+using WebAPIs.ProgramConfigs;
 using WebAPIs.Token;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
+// Add services FluentValidation
 builder.Services.AddControllers().AddFluentValidation(config =>
 {
     config.RegisterValidatorsFromAssembly(typeof(Program).Assembly);
 });
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
-//builder.Services.AddTransient<IValidator<AddUserViewModel>, AddUserViewModelValidation>();
-
-// ConfigServices
+// ConfigServices ConnectionString
 builder.Services.AddDbContext<ContextBase>(options => options
                 .UseSqlite(builder.Configuration
                 .GetConnectionString("DefaultConnection"))
@@ -59,43 +54,8 @@ builder.Services.AddSingleton<IServiceMessage, ServiceMessage>();
 builder.Services.AddSingleton<IServicePokemonsCapturados, ServicePokemonsCapturados>();
 builder.Services.AddSingleton<IServicePokemonsCapturados, ServicePokemonsCapturados>();
 
-//JWT
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-      .AddJwtBearer(option =>
-      {
-          var jk = JwtSecurityKey.Create("Secret_Key-12345678");
-
-          option.TokenValidationParameters = new TokenValidationParameters
-          {
-              RequireAudience = false,
-
-              ValidateIssuer = false,
-              ValidateAudience = false,
-              ValidateLifetime = false,
-              ValidateActor = false,
-              ValidateIssuerSigningKey = true,
-
-              ValidIssuer = "Teste.Issuer.Bearer",
-              ValidAudience = "Teste.Audience.Bearer",
-              IssuerSigningKey = jk
-          };
-
-          option.Events = new JwtBearerEvents
-          {
-              OnAuthenticationFailed = context =>
-              {
-                  var teste = context.Exception.Message;
-                  Console.WriteLine("OnAuthenticationFailed: " + context.Exception.Message);
-                  return Task.CompletedTask;
-              },
-              OnTokenValidated = context =>
-              {
-                  var teste = context.SecurityToken;
-                  Console.WriteLine("OnTokenValidated: " + context.SecurityToken);;
-                  return Task.CompletedTask;
-              }
-          };
-      });
+//JWT Tokens
+builder.Services.AddAuthentication(JWTConfig.GetJWTConfig()).AddJwtBearer(JWTConfig.AddJwtBearerConfig(builder));
 
 // Mapper
 var config = new MapperConfiguration( cfg =>
@@ -106,64 +66,25 @@ var config = new MapperConfiguration( cfg =>
 IMapper mapper = config.CreateMapper();
 builder.Services.AddSingleton(mapper);
 
-///builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
-{
-    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
-    {
-        Name = "Authorization",
-        Type = SecuritySchemeType.ApiKey,
-        Scheme = "Bearer",
-        BearerFormat = "JWT",
-        In = ParameterLocation.Header,
-        Description = "JWT Authorization header using the Bearer scheme." +
-                "\r\n\r\n Enter 'Bearer' [Space] and then you token in the text input below." +
-                "\r\n\r\n Example: Bearer 12345abcdef"
-    });
-
-    options.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            Array.Empty<string>()
-        }
-    });
-});
-
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(SwaggerConfig.SwaggerOptions());
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment())
-//{
 app.UseSwagger();
-app.UseSwaggerUI(uiOptions =>
-{
-    uiOptions.SwaggerEndpoint("/swagger/v1/swagger.json", "WebAPI V1");
-});
-//}
+app.UseSwaggerUI(SwaggerConfig.GetEndpoint());
 
-// CORs
-//var devClient = "http://localhost:7171";
-//app.UseCors(x => x
-//.AllowAnyOrigin()
-//.AllowAnyMethod()
-//.AllowAnyHeader()
-//.WithOrigins(devClient));
-
+ //CORs
+var devClient = "http://localhost:7171";
+app.UseCors(x => x
+.AllowAnyOrigin()
+.AllowAnyMethod()
+.AllowAnyHeader()
+.WithOrigins(devClient));
 
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
