@@ -70,8 +70,8 @@ namespace WebAPIs.Controllers
             return Ok(pokemon);
         }
 
-        [Authorize, Produces("application/json"), HttpPost("/api/CapturouPokemonByNameOrId/{pokemonNameOrId}")]
-        public async Task<IActionResult> CapturouPokemonByNameOrId(string pokemonNameOrId)
+        [Authorize, Produces("application/json"), HttpPost("/api/CapturarPokemonByNameOrId/{pokemonNameOrId}")]
+        public async Task<IActionResult> CapturarPokemonByNameOrId(string pokemonNameOrId)
         {
             try
             {
@@ -101,7 +101,7 @@ namespace WebAPIs.Controllers
             }
         }
 
-        [Authorize, Produces("application/json"), HttpPost("/api/ListarTodosMeusPokemonsCapturados")]
+        [Authorize, Produces("application/json"), HttpGet("/api/ListarTodosMeusPokemonsCapturados")]
         public async Task<IActionResult> ListarTodosMeusPokemonsCapturados()
         {
             try
