@@ -21,10 +21,8 @@ namespace Infrastructure.Configuration
         public DbSet<Message> Message { get; set; }
         public DbSet<PokemonsCapturados> PokemonsCapturados { get; set; }
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
-
         public DbSet<Telefone> Telefone { get; set; }
         public DbSet<UserEndereco> UserEndereco { get; set; }
-
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

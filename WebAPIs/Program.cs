@@ -3,18 +3,25 @@ using Domain.Interfaces;
 using Domain.Interfaces.InterfacesServices;
 using Domain.InterfacesExternal;
 using Domain.InterfacesExternal.InterfacesServices;
+using Domain.InterfacesInternal;
+using Domain.InterfacesInternal.InterfacesServices;
 using Domain.Services;
 using Domain.ServicesExternal;
+using Domain.ServicesInternal;
 using Domain.Utils.InterfaceGenerics;
 using Entities.Entities;
 using FluentValidation.AspNetCore;
 using Infrastructure.Configuration;
 using Infrastructure.Repository.Generics;
 using Infrastructure.Repository.Repositories;
+using Infrastructure.Repository.RepositoriesInternal;
 using Infrastructure.Repository.RepositoryExternal;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using WebAPIs.Models;
 using WebAPIs.ProgramConfigs;
+using WebAPIs.ViewModels;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,9 +37,12 @@ builder.Services.AddDbContext<ContextBase>(options => options
                 .GetConnectionString("DefaultConnection"))
 );
 
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => options
-                .SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ContextBase>();
+//AspNetCore Identity
+builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = true;
+}).AddEntityFrameworkStores<ContextBase>();
+                
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
@@ -41,21 +51,26 @@ builder.Services.AddRazorPages();
 builder.Services.AddSingleton<IServiceMessage, ServiceMessage>();
 builder.Services.AddSingleton<IServicePokemonsCapturados, ServicePokemonsCapturados>();
 builder.Services.AddSingleton<IServicePokemon, ServicePokemon>();
+builder.Services.AddSingleton<IServiceTelefone, ServiceTelefone>();
+builder.Services.AddSingleton<IServiceUserEnderecos, ServiceUserEnderecos>();
 
 // Interface e Repositorio
 builder.Services.AddSingleton(typeof(IGeneric<>), typeof(RepositoryGenerics<>));
 builder.Services.AddSingleton<IMessageInfrastructure, RepositoryMessage>();
 builder.Services.AddSingleton<IPokemonsCapturadosInfrastructure, RepositoryPokemonsCapturados>();
 builder.Services.AddSingleton<IPokemonInfrastructure, RepositoryPokemon>();
+builder.Services.AddSingleton<ITelefoneInfrasctructure, RepositoryTelefone>();
+builder.Services.AddSingleton<IUserEnderecosInfrastructure, RepositoryUserEnderecos>();
 
 //JWT Tokens
 builder.Services.AddAuthentication(JWTConfig.GetJWTConfig()).AddJwtBearer(JWTConfig.AddJwtBearerConfig(builder));
 
 // Mapper
-var config = new MapperConfiguration(cfg =>
+var config = new MapperConfiguration(mapper =>
 {
-    cfg.CreateMap<MessageViewModel, Message>();
-    cfg.CreateMap<Message, MessageViewModel>();
+    mapper.CreateMap<Message, MessageViewModel>().ReverseMap();
+    mapper.CreateMap<Telefone, TelefoneViewModel>().ReverseMap();
+    mapper.CreateMap<UserEndereco, UserEnderecoViewModel>().ReverseMap();
 });
 IMapper mapper = config.CreateMapper();
 builder.Services.AddSingleton(mapper);
