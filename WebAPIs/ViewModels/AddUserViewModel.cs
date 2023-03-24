@@ -2,10 +2,9 @@
 {
     public class AddUserViewModel
     {
-        public string email { get; set; }
-        public string senha { get; set; }
-        public string cpf { get; set; }
-        public DateTime DtNascimento { get; set; }
-        public int Idade { get; set; }
+        public string UserName { get; set; }
+        public string Email { get; set; }
+        public string Senha { get; set; }
+        public string CPF { get; set; }
     }
 }

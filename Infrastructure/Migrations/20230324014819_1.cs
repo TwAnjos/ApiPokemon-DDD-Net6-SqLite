@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Infrastructure.Migrations
 {
-    public partial class startMigrationDB : Migration
+    public partial class _1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -31,7 +31,7 @@ namespace Infrastructure.Migrations
                     USR_CPF = table.Column<string>(type: "VARCHAR(11)", nullable: true),
                     USR_RG = table.Column<string>(type: "VARCHAR(11)", nullable: true),
                     USR_IDADE = table.Column<int>(type: "INTEGER", nullable: true),
-                    USR_GENERO = table.Column<char>(type: "TEXT", nullable: true),
+                    USR_GENERO = table.Column<int>(type: "INTEGER", nullable: true),
                     USR_TIPO = table.Column<int>(type: "INTEGER", nullable: true),
                     USR_DT_NASCIMENTO = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
@@ -300,12 +300,14 @@ namespace Infrastructure.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_TB_TELEFONE_TLF_USR_ID",
                 table: "TB_TELEFONE",
-                column: "TLF_USR_ID");
+                column: "TLF_USR_ID",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_TB_USER_ENDERECO_END_USR_ID",
                 table: "TB_USER_ENDERECO",
-                column: "END_USR_ID");
+                column: "END_USR_ID",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
