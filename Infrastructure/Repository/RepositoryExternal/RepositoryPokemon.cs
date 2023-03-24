@@ -1,18 +1,12 @@
 ﻿using Domain.InterfacesExternal;
-using Entities.Entities;
 using Entities.EntitiesExternal;
 using Infrastructure.Repository.Generics;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Repository.RepositoryExternal
 {
-    public class RepositoryPokemon : RepositoryGenerics<Pokemon>,  IPokemonInfrastructure
+    public class RepositoryPokemon : RepositoryGenerics<Pokemon>, IPokemonInfrastructure
     {
         //https://pokeapi.co/api/v2/pokemon/1
         private readonly string urlApi = "https://pokeapi.co/api/v2/pokemon/";
@@ -53,11 +47,11 @@ namespace Infrastructure.Repository.RepositoryExternal
 
         private byte[] GetSpriteB64(string filePathSpriteImg)
         {
-            if(filePathSpriteImg == null)
+            if (filePathSpriteImg == null)
             {
                 return null;
             }
-            using(var client = new WebClient())
+            using (var client = new WebClient())
             {
                 return client.DownloadData(filePathSpriteImg);
             }
@@ -67,7 +61,7 @@ namespace Infrastructure.Repository.RepositoryExternal
         {
             try
             {
-                using(HttpClient client = new HttpClient())
+                using (HttpClient client = new HttpClient())
                 {
                     Task<HttpResponseMessage> response = client.GetAsync($"{url}");
                     response.Wait();
@@ -88,7 +82,6 @@ namespace Infrastructure.Repository.RepositoryExternal
             return null;
         }
 
-        
         private List<Species>? GetEvolutionListFromChainPokemon(string url)
         {
             _listSpeciesEvolutions.Clear();
@@ -100,7 +93,7 @@ namespace Infrastructure.Repository.RepositoryExternal
                     Task<HttpResponseMessage> response = client.GetAsync($"{url}");
                     response.Wait();
 
-                    if(response.Result.IsSuccessStatusCode)
+                    if (response.Result.IsSuccessStatusCode)
                     {
                         Task<string> result = response.Result.Content.ReadAsStringAsync();
                         details = JsonConvert.DeserializeObject<EvolutionChainDetails>(result.Result);
@@ -120,7 +113,6 @@ namespace Infrastructure.Repository.RepositoryExternal
             }
         }
 
-        
         private void CarregaListadeEspeciesPokemon(List<EvolvesTo> listEvolvesTo)
         {
             foreach (var item in listEvolvesTo)
@@ -132,7 +124,6 @@ namespace Infrastructure.Repository.RepositoryExternal
                 }
             }
         }
-
 
         public Pokemon GetPokemonByName(string namePokemon)
         {
@@ -166,7 +157,7 @@ namespace Infrastructure.Repository.RepositoryExternal
             var list10Pokemons = new List<Pokemon>();
             var random = new Random();
 
-            for(int i = 0; i < 10; i++)
+            for (int i = 0; i < 10; i++)
             {
                 //1010 é o número máximo de pokemons atualmente.
                 var numeroRND = random.Next(1, 1010);

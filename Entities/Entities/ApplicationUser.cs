@@ -1,12 +1,7 @@
 ﻿using Entities.Enums;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Entities.Entities
 {
@@ -19,7 +14,6 @@ namespace Entities.Entities
         [Column("USR_RG", TypeName = "VARCHAR(11)")]
         public string? RG { get; set; }
 
-
         [Column("USR_IDADE")]
         public int? Idade { get; set; }
 
@@ -27,7 +21,7 @@ namespace Entities.Entities
         /// Sexo
         /// </summary>
         [Column("USR_GENERO")]
-        public char? Genero { get; set; }
+        public Genero? Genero { get; set; }
 
         [Column("USR_TIPO")]
         public TipoUsuario? Tipo { get; set; }
@@ -36,11 +30,12 @@ namespace Entities.Entities
         [Column("USR_DT_NASCIMENTO")]
         public DateTime DtNascimento { get; set; }
 
+        [ForeignKey("TB_TELEFONE")]
+        [Column("USR_TELEFONE", Order = 1)]
+        public Telefone? Telefone { get; set; }
 
-        [Column("USR_TELEFONE")]
-        public virtual ICollection<Telefone>? Telefones { get; set; }
-
-        [Column("USR_ENDERECOS")]
-        public virtual ICollection<UserEndereco>? User_Enderecos { get; set; }
+        [ForeignKey("TB_USER_ENDERECO")]
+        [Column("USR_ENDERECOS", Order = 1)]
+        public UserEndereco? User_Endereco { get; set; }
     }
 }

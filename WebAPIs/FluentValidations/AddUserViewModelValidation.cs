@@ -8,17 +8,19 @@ namespace WebAPIs.FluentValidations
         public AddUserViewModelValidation()
         {
             string regerEmail = @"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$";
-            RuleFor(v => v.email)
+            RuleFor(v => v.Email)
                 .NotEmpty().WithMessage($"o campo email é Obrigatório.")
-                .Matches(regerEmail).WithMessage($"o campo email não é valido."); ;
+                .Matches(regerEmail).WithMessage($"o campo email não é valido.");
 
-            RuleFor(v => v.DtNascimento).NotEmpty()
-                .NotEmpty().WithMessage($"o campo DtNascimento é Obrigatório.")
-                .LessThan(DateTime.Now).WithMessage($"o campo DtNascimento precisa ser menor que hoje.");
-
-            RuleFor(v => v.senha)
+            RuleFor(v => v.Senha)
                 .NotEmpty().WithMessage($"o campo senha é Obrigatório.")
                 .Must(v => v.Length >= 10 && v.Length <= 15).WithMessage($"o campo senha deve ser maior ou igual a 10 e menor ou igual a 15.");
+
+            RuleFor(v => v.CPF)
+                .NotEmpty().WithMessage($"o campo email é Obrigatório.")
+                .Matches("^[0-9]+$").WithMessage($"o campo cpf deve conter somente números"); ;
+
+
         }
     }
 }

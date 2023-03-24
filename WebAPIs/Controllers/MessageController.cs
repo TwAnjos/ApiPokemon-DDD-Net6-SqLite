@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using Domain.Interfaces;
 using Domain.Interfaces.InterfacesServices;
 using Entities.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAPIs.Models;
+using WebAPIs.Utils;
 
 namespace WebAPIs.Controllers
 {
@@ -20,31 +20,13 @@ namespace WebAPIs.Controllers
             _IServiceMessage = iServiceMessage;
         }
 
-        private async Task<string> RetornaIdUsuarioLogado()
-        {
-            try
-            {
-                if (User != null)
-                {
-                    var idUsuario = User.FindFirst("idUsuario");
-                    return idUsuario.Value;
-                }
-
-                return string.Empty;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
         [Authorize, Produces("application/json"), HttpPost("/api/Add/")]
-        public async Task<List<Notifies>> Add( [FromBody] MessageViewModel message)
+        public async Task<List<Notifies>> Add([FromBody] MessageViewModel message)
         {
             try
             {
-                message.UserId = await RetornaIdUsuarioLogado();
-                var messageMap = _IMapper.Map<Message>(message);
+                message.UserId = await UserUtils.RetornaIdUsuarioLogado(User);
+                Message? messageMap = _IMapper.Map<Message>(message);
                 await _IServiceMessage.Adicionar(messageMap);
                 return messageMap.ListNotifies;
             }
@@ -52,7 +34,6 @@ namespace WebAPIs.Controllers
             {
                 throw new Exception(ex.Message);
             }
-
         }
 
         [Authorize, Produces("application/json"), HttpPost("/api/Update/{message}")]
