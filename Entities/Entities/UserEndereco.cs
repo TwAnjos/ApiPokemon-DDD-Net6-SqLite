@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Entities.Entities
 {
@@ -35,6 +36,7 @@ namespace Entities.Entities
         [Column("END_USR_ID", Order = 1)]
         public string? UserId { get; set; }
 
+        [JsonIgnore]
         public virtual ApplicationUser? ApplicationUser { get; set; }
     }
 }

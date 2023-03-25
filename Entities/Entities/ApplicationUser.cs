@@ -30,12 +30,10 @@ namespace Entities.Entities
         [Column("USR_DT_NASCIMENTO")]
         public DateTime DtNascimento { get; set; }
 
-        [ForeignKey("TB_TELEFONE")]
-        [Column("USR_TELEFONE", Order = 1)]
-        public Telefone? Telefone { get; set; }
+        [Column("USR_TELEFONE_ID")]
+        public virtual Telefone? Telefone { get; set; }
 
-        [ForeignKey("TB_USER_ENDERECO")]
-        [Column("USR_ENDERECOS", Order = 1)]
-        public UserEndereco? User_Endereco { get; set; }
+        [Column("USR_ENDERECOS_ID")]
+        public virtual UserEndereco? User_Endereco { get; set; }
     }
 }

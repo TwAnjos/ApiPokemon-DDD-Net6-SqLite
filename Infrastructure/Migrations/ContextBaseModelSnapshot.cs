@@ -82,12 +82,6 @@ namespace Infrastructure.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("TB_TELEFONE")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("TB_USER_ENDERECO")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int?>("Tipo")
                         .HasColumnType("INTEGER")
                         .HasColumnName("USR_TIPO");
@@ -107,10 +101,6 @@ namespace Infrastructure.Migrations
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
-
-                    b.HasIndex("TB_TELEFONE");
-
-                    b.HasIndex("TB_USER_ENDERECO");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -217,7 +207,8 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("TB_TELEFONE");
                 });
@@ -260,7 +251,8 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("TB_USER_ENDERECO");
                 });
@@ -397,21 +389,6 @@ namespace Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Entities.Entities.ApplicationUser", b =>
-                {
-                    b.HasOne("Entities.Entities.Telefone", "Telefone")
-                        .WithMany()
-                        .HasForeignKey("TB_TELEFONE");
-
-                    b.HasOne("Entities.Entities.UserEndereco", "User_Endereco")
-                        .WithMany()
-                        .HasForeignKey("TB_USER_ENDERECO");
-
-                    b.Navigation("Telefone");
-
-                    b.Navigation("User_Endereco");
-                });
-
             modelBuilder.Entity("Entities.Entities.Message", b =>
                 {
                     b.HasOne("Entities.Entities.ApplicationUser", "ApplicationUser")
@@ -437,8 +414,8 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Entities.Entities.Telefone", b =>
                 {
                     b.HasOne("Entities.Entities.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("UserId");
+                        .WithOne("Telefone")
+                        .HasForeignKey("Entities.Entities.Telefone", "UserId");
 
                     b.Navigation("ApplicationUser");
                 });
@@ -446,8 +423,8 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Entities.Entities.UserEndereco", b =>
                 {
                     b.HasOne("Entities.Entities.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("UserId");
+                        .WithOne("User_Endereco")
+                        .HasForeignKey("Entities.Entities.UserEndereco", "UserId");
 
                     b.Navigation("ApplicationUser");
                 });
@@ -501,6 +478,13 @@ namespace Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Entities.Entities.ApplicationUser", b =>
+                {
+                    b.Navigation("Telefone");
+
+                    b.Navigation("User_Endereco");
                 });
 #pragma warning restore 612, 618
         }

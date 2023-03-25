@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 using System.Text;
 using WebAPIs.Models;
 using WebAPIs.Token;
@@ -37,7 +38,6 @@ namespace WebAPIs.Controllers
         [AllowAnonymous, Produces("application/json"), HttpPost("/api/GerarTokenAPI")]
         public async Task<IActionResult> GerarTokenAPI([FromBody] LoginViewModel login)
         {
-          
             var user = _userManager.FindByEmailAsync(login.email).Result;
             var r2 = await _signInManager.PasswordSignInAsync(user, login.senha, false, lockoutOnFailure: false);
 
@@ -158,7 +158,11 @@ namespace WebAPIs.Controllers
         [AllowAnonymous, Produces("application/json"), HttpGet("/api/ListAllUsers")]
         public IActionResult ListAllUsers()
         {
-            return Ok(_userManager.Users.Where(u => u.Email != null).ToList());
+            return Ok((from u in _userManager.Users
+                          .Include(t => t.Telefone)
+                          .Include(e => e.User_Endereco)
+                       where u.Id.Contains(u.Id)
+                       select u).ToList());
         }
     }
 }

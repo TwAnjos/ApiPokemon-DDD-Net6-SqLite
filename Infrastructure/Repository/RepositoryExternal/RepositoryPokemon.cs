@@ -45,7 +45,7 @@ namespace Infrastructure.Repository.RepositoryExternal
             }
         }
 
-        private byte[] GetSpriteB64(string filePathSpriteImg)
+        private byte[]? GetSpriteB64(string filePathSpriteImg)
         {
             if (filePathSpriteImg == null)
             {
@@ -57,7 +57,7 @@ namespace Infrastructure.Repository.RepositoryExternal
             }
         }
 
-        private List<Species> GetSpeciesDetailsPokemon(string url)
+        private List<Species>? GetSpeciesDetailsPokemon(string url)
         {
             try
             {
@@ -167,27 +167,27 @@ namespace Infrastructure.Repository.RepositoryExternal
             return list10Pokemons;
         }
 
-        public Task Add(Pokemon entity)
+        public new Task Add(Pokemon entity)
         {
             throw new NotImplementedException("Não implementado");
         }
 
-        public Task Update(Pokemon entity)
+        public new Task Update(Pokemon entity)
         {
             throw new NotImplementedException("Não implementado");
         }
 
-        public Task Delete(Pokemon entity)
+        public new Task Delete(Pokemon entity)
         {
             throw new NotImplementedException("Não implementado");
         }
 
-        public Task<Pokemon> GetEntityById(int Id)
+        public new Task<Pokemon> GetEntityById(int Id)
         {
             throw new NotImplementedException("Não implementado");
         }
 
-        public Task<List<Pokemon>> GetAll()
+        public new Task<List<Pokemon>> GetAll()
         {
             throw new NotImplementedException("Não implementado");
         }

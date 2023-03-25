@@ -8,6 +8,6 @@ namespace Entities.EntitiesExternal
 {
     public class EvolutionChain
     {
-        public string url { get; set; }
+        public string? url { get; set; }
     }
 }

@@ -1,15 +1,10 @@
 ﻿using Domain.InterfacesInternal;
 using Domain.InterfacesInternal.InterfacesServices;
 using Entities.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.ServicesInternal
 {
-    public class ServiceTelefone: IServiceTelefone
+    public class ServiceTelefone : IServiceTelefone
     {
         private readonly ITelefoneInfrasctructure _ITelefoneInfrasctructure;
 
@@ -21,6 +16,11 @@ namespace Domain.ServicesInternal
         public async Task Adicionar(Telefone tel)
         {
             await _ITelefoneInfrasctructure.Add(tel);
+        }
+
+        public Telefone? GetByUserId(string id)
+        {
+            return _ITelefoneInfrasctructure.GetEntityByUserId(id);
         }
     }
 }

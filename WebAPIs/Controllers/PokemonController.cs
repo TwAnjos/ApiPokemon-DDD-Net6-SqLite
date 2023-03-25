@@ -116,11 +116,11 @@ namespace WebAPIs.Controllers
         }
 
         [Authorize, Produces("application/json"), HttpDelete("/api/RemoverPokemonByName/{pokemonName}")]
-        public async Task<IActionResult> RemoverPokemonByName(string pokemonName)
+        public IActionResult RemoverPokemonByName(string pokemonName)
         {
             try
             {
-                PokemonsCapturados pk = await _IServicePokemonsCapturados.GetPokemonByName(pokemonName);
+                PokemonsCapturados pk = _IServicePokemonsCapturados.GetPokemonByName(pokemonName);
                 if (pk is null)
                 {
                     return NotFound("Objeto não encontrado");

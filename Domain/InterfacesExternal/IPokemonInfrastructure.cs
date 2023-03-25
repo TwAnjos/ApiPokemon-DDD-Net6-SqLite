@@ -7,7 +7,7 @@ namespace Domain.InterfacesExternal
     {
         List<Pokemon> List10PokemonRandom();
 
-        Pokemon GetPokemonById(int idPokemon);
+        Pokemon? GetPokemonById(int idPokemon);
 
         Pokemon GetPokemonByName(string namePokemon);
     }
