@@ -17,5 +17,10 @@ namespace Domain.ServicesInternal
         {
             await _IUserEnderecosInfrastructure.Add(endereco);
         }
+
+        public UserEndereco GetByUserId(string id)
+        {
+            return _IUserEnderecosInfrastructure.GetEntityByUserId(id);
+        }
     }
 }

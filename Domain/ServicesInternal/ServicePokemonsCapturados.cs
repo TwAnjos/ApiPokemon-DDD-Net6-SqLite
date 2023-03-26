@@ -39,7 +39,7 @@ namespace Domain.Services
             }
         }
 
-        public async Task<PokemonsCapturados> GetPokemonByName(string pokemonName)
+        public PokemonsCapturados GetPokemonByName(string pokemonName)
         {
             return _IPokemonsCapturadosInfrastructure.GetByName(pokemonName);
         }
@@ -49,7 +49,7 @@ namespace Domain.Services
             return await _IPokemonsCapturadosInfrastructure.ListarPokemonsCapturados(p => p.Ativo && p.UserId == userId);
         }
 
-        public void RemoveById(PokemonsCapturados? pk)
+        public void RemoveById(PokemonsCapturados pk)
         {
             _IPokemonsCapturadosInfrastructure.Delete(pk);
         }
