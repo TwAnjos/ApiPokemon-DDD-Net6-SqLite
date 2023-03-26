@@ -81,7 +81,7 @@ namespace WebAPIs.Controllers
             }
 
             //Geração de confirmação caso precise
-            var userId = await _userManager.GetUserIdAsync(user);
+            _ = await _userManager.GetUserIdAsync(user);
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
 
@@ -130,9 +130,9 @@ namespace WebAPIs.Controllers
                 return BadRequest(resultado.Errors);
             }
 
-            var isChangeUserName = _userManager.SetUserNameAsync(user, userView.UserName);
-            var isChangeEmail = _userManager.SetEmailAsync(user, userView.Email);
-            var isChangePassword = _userManager.ChangePasswordAsync(user, user.PasswordHash, userView.Senha);
+            _ = _userManager.SetUserNameAsync(user, userView.UserName);
+            _ = _userManager.SetEmailAsync(user, userView.Email);
+            _ = _userManager.ChangePasswordAsync(user, user.PasswordHash, userView.Senha);
 
             return Ok("Usuário autalizado com sucesso" + resultado);
         }
@@ -145,7 +145,7 @@ namespace WebAPIs.Controllers
 
             if (result.Succeeded)
             {
-                var userCurrent = await _userManager.DeleteAsync(user);
+                _ = await _userManager.DeleteAsync(user);
 
                 return Ok($"O usuário {user.UserName} foi removido.");
             }

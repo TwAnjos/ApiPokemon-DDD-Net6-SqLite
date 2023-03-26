@@ -45,7 +45,7 @@ namespace Infrastructure.Repository.RepositoryExternal
             }
         }
 
-        private byte[] GetSpriteB64(string filePathSpriteImg)
+        private static byte[] GetSpriteB64(string filePathSpriteImg)
         {
             if (filePathSpriteImg == null)
             {
@@ -85,10 +85,9 @@ namespace Infrastructure.Repository.RepositoryExternal
         private List<Species> GetEvolutionListFromChainPokemon(string url)
         {
             _listSpeciesEvolutions.Clear();
-            EvolutionChainDetails details = new EvolutionChainDetails();
             try
             {
-                using (HttpClient client = new HttpClient())
+                using (var client = new HttpClient())
                 {
                     Task<HttpResponseMessage> response = client.GetAsync($"{url}");
                     response.Wait();
@@ -96,7 +95,7 @@ namespace Infrastructure.Repository.RepositoryExternal
                     if (response.Result.IsSuccessStatusCode)
                     {
                         Task<string> result = response.Result.Content.ReadAsStringAsync();
-                        details = JsonConvert.DeserializeObject<EvolutionChainDetails>(result.Result);
+                        EvolutionChainDetails details = JsonConvert.DeserializeObject<EvolutionChainDetails>(result.Result);
 
                         _listSpeciesEvolutions.Add(details.chain.species);
 
