@@ -9,5 +9,6 @@ namespace Entities.EntitiesExternal
     public class Sprites
     {
         public string front_default { get; set; }
+        public byte[] spriteBase64 { get; set; }
     }
 }

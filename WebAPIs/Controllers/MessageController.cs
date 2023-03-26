@@ -25,8 +25,8 @@ namespace WebAPIs.Controllers
         {
             try
             {
-                message.UserId = await UserUtils.RetornaIdUsuarioLogado(User);
-                Message? messageMap = _IMapper.Map<Message>(message);
+                message.UserId = UserUtils.RetornaIdUsuarioLogado(User);
+                Message messageMap = _IMapper.Map<Message>(message);
                 await _IServiceMessage.Adicionar(messageMap);
                 return messageMap.ListNotifies;
             }
