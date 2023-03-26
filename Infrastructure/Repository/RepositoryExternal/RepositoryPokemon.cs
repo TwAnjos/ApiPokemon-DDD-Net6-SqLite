@@ -18,7 +18,7 @@ namespace Infrastructure.Repository.RepositoryExternal
             _listSpeciesEvolutions = new List<Species>();
         }
 
-        public Pokemon GetPokemonById(int idPokemon)
+        public Pokemon? GetPokemonById(int idPokemon)
         {
             try
             {
@@ -45,15 +45,15 @@ namespace Infrastructure.Repository.RepositoryExternal
             }
         }
 
-        private static byte[] GetSpriteB64(string filePathSpriteImg)
+        private byte[] GetSpriteB64(string filePathSpriteImg)
         {
             if (filePathSpriteImg == null)
             {
                 return null;
             }
-            using (var client = new HttpClient())
+            using (var client = new WebClient())
             {
-                return client.GetByteArrayAsync(filePathSpriteImg).Result;
+                return client.DownloadData(filePathSpriteImg);
             }
         }
 
@@ -61,7 +61,7 @@ namespace Infrastructure.Repository.RepositoryExternal
         {
             try
             {
-                using (HttpClient client = new ())
+                using (HttpClient client = new HttpClient())
                 {
                     Task<HttpResponseMessage> response = client.GetAsync($"{url}");
                     response.Wait();
@@ -69,7 +69,7 @@ namespace Infrastructure.Repository.RepositoryExternal
                     if (response.Result.IsSuccessStatusCode)
                     {
                         Task<string> result = response.Result.Content.ReadAsStringAsync();
-                        SpeciesDetails details = JsonConvert.DeserializeObject<SpeciesDetails>(result.Result);
+                        SpeciesDetails? details = JsonConvert.DeserializeObject<SpeciesDetails>(result.Result);
 
                         return GetEvolutionListFromChainPokemon(details.evolution_chain.url);
                     }
@@ -82,12 +82,13 @@ namespace Infrastructure.Repository.RepositoryExternal
             return null;
         }
 
-        private List<Species> GetEvolutionListFromChainPokemon(string url)
+        private List<Species>? GetEvolutionListFromChainPokemon(string url)
         {
             _listSpeciesEvolutions.Clear();
+            EvolutionChainDetails? details = new EvolutionChainDetails();
             try
             {
-                using (var client = new HttpClient())
+                using (HttpClient client = new HttpClient())
                 {
                     Task<HttpResponseMessage> response = client.GetAsync($"{url}");
                     response.Wait();
@@ -95,7 +96,7 @@ namespace Infrastructure.Repository.RepositoryExternal
                     if (response.Result.IsSuccessStatusCode)
                     {
                         Task<string> result = response.Result.Content.ReadAsStringAsync();
-                        EvolutionChainDetails details = JsonConvert.DeserializeObject<EvolutionChainDetails>(result.Result);
+                        details = JsonConvert.DeserializeObject<EvolutionChainDetails>(result.Result);
 
                         _listSpeciesEvolutions.Add(details.chain.species);
 
@@ -166,27 +167,27 @@ namespace Infrastructure.Repository.RepositoryExternal
             return list10Pokemons;
         }
 
-        public new Task Add(Pokemon entity)
+        public Task Add(Pokemon entity)
         {
             throw new NotImplementedException("Não implementado");
         }
 
-        public new Task Update(Pokemon entity)
+        public Task Update(Pokemon entity)
         {
             throw new NotImplementedException("Não implementado");
         }
 
-        public new Task Delete(Pokemon entity)
+        public Task Delete(Pokemon entity)
         {
             throw new NotImplementedException("Não implementado");
         }
 
-        public new Task<Pokemon> GetEntityById(int Id)
+        public Task<Pokemon> GetEntityById(int Id)
         {
             throw new NotImplementedException("Não implementado");
         }
 
-        public new Task<List<Pokemon>> GetAll()
+        public Task<List<Pokemon>> GetAll()
         {
             throw new NotImplementedException("Não implementado");
         }

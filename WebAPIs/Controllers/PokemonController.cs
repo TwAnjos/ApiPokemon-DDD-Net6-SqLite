@@ -23,7 +23,7 @@ namespace WebAPIs.Controllers
             _IServicePokemon = iServicePokemon;
         }
 
-        private string RetornaIdUsuarioLogado()
+        private async Task<string> RetornaIdUsuarioLogado()
         {
             try
             {
@@ -88,7 +88,7 @@ namespace WebAPIs.Controllers
 
                 //pega o id do pokemon e salva com o id do usuário
                 PokemonsCapturados capturado = new PokemonsCapturados();
-                capturado.UserId = RetornaIdUsuarioLogado();
+                capturado.UserId = await RetornaIdUsuarioLogado();
                 capturado.PokemonId = pokemon.id;
                 capturado.PokemonName = pokemon.name;
                 await _IServicePokemonsCapturados.Adicionar(capturado);
@@ -97,30 +97,30 @@ namespace WebAPIs.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest("Erro ao capturar pokemon. "+ex.Message);
+                return BadRequest("Erro ao capturar pokemon. ");
             }
         }
 
         [Authorize, Produces("application/json"), HttpGet("/api/ListarTodosMeusPokemonsCapturados")]
-        public IActionResult ListarTodosMeusPokemonsCapturados()
+        public async Task<IActionResult> ListarTodosMeusPokemonsCapturados()
         {
             try
             {
-                string userId = RetornaIdUsuarioLogado();
+                string userId = await RetornaIdUsuarioLogado();
                 return Ok(_IServicePokemonsCapturados.ListarPokemonsCapturadosAtivos(userId));
             }
             catch (Exception ex)
             {
-                return BadRequest("Erro ao retornar lista" + ex);
+                return BadRequest("Erro ao retornar lista");
             }
         }
 
         [Authorize, Produces("application/json"), HttpDelete("/api/RemoverPokemonByName/{pokemonName}")]
-        public IActionResult RemoverPokemonByName(string pokemonName)
+        public async Task<IActionResult> RemoverPokemonByName(string pokemonName)
         {
             try
             {
-                PokemonsCapturados pk = _IServicePokemonsCapturados.GetPokemonByName(pokemonName);
+                PokemonsCapturados pk = await _IServicePokemonsCapturados.GetPokemonByName(pokemonName);
                 if (pk is null)
                 {
                     return NotFound("Objeto não encontrado");

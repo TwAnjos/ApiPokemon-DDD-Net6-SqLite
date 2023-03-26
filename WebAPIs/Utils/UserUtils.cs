@@ -11,7 +11,7 @@ namespace WebAPIs.Utils
         /// <param name="User"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public static string RetornaIdUsuarioLogado(ClaimsPrincipal User)
+        public static async Task<string> RetornaIdUsuarioLogado(ClaimsPrincipal User)
         {
             try
             {
