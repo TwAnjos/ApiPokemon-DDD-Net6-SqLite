@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 using System.Text;
 using WebAPIs.Models;
 using WebAPIs.Token;
@@ -37,7 +38,6 @@ namespace WebAPIs.Controllers
         [AllowAnonymous, Produces("application/json"), HttpPost("/api/GerarTokenAPI")]
         public async Task<IActionResult> GerarTokenAPI([FromBody] LoginViewModel login)
         {
-          
             var user = _userManager.FindByEmailAsync(login.email).Result;
             var r2 = await _signInManager.PasswordSignInAsync(user, login.senha, false, lockoutOnFailure: false);
 
@@ -81,7 +81,7 @@ namespace WebAPIs.Controllers
             }
 
             //Geração de confirmação caso precise
-            var userId = await _userManager.GetUserIdAsync(user);
+            _ = await _userManager.GetUserIdAsync(user);
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
 
@@ -102,7 +102,7 @@ namespace WebAPIs.Controllers
         [Authorize, Produces("application/json"), HttpPost("/api/AtualizarUsuarioLogado")]
         public async Task<IActionResult> AtualizarUsuarioLogado([FromBody] UserCompleteViewModel userView)
         {
-            string userID = UserUtils.RetornaIdUsuarioLogado(User).Result;
+            string userID = UserUtils.RetornaIdUsuarioLogado(User);
             var user = _userManager.FindByIdAsync(userID).Result;
 
             user.CPF = userView.CPF;
@@ -130,9 +130,9 @@ namespace WebAPIs.Controllers
                 return BadRequest(resultado.Errors);
             }
 
-            var isChangeUserName = _userManager.SetUserNameAsync(user, userView.UserName);
-            var isChangeEmail = _userManager.SetEmailAsync(user, userView.Email);
-            var isChangePassword = _userManager.ChangePasswordAsync(user, user.PasswordHash, userView.Senha);
+            _ = _userManager.SetUserNameAsync(user, userView.UserName);
+            _ = _userManager.SetEmailAsync(user, userView.Email);
+            _ = _userManager.ChangePasswordAsync(user, user.PasswordHash, userView.Senha);
 
             return Ok("Usuário autalizado com sucesso" + resultado);
         }
@@ -145,7 +145,7 @@ namespace WebAPIs.Controllers
 
             if (result.Succeeded)
             {
-                var userCurrent = await _userManager.DeleteAsync(user);
+                _ = await _userManager.DeleteAsync(user);
 
                 return Ok($"O usuário {user.UserName} foi removido.");
             }
@@ -158,7 +158,11 @@ namespace WebAPIs.Controllers
         [AllowAnonymous, Produces("application/json"), HttpGet("/api/ListAllUsers")]
         public IActionResult ListAllUsers()
         {
-            return Ok(_userManager.Users.Where(u => u.Email != null).ToList());
+            return Ok((from u in _userManager.Users
+                          .Include(t => t.Telefone)
+                          .Include(e => e.User_Endereco)
+                       where u.Id.Contains(u.Id)
+                       select u).ToList());
         }
     }
 }
