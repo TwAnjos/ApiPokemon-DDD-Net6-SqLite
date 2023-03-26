@@ -102,7 +102,7 @@ namespace WebAPIs.Controllers
         [Authorize, Produces("application/json"), HttpPost("/api/AtualizarUsuarioLogado")]
         public async Task<IActionResult> AtualizarUsuarioLogado([FromBody] UserCompleteViewModel userView)
         {
-            string userID = UserUtils.RetornaIdUsuarioLogado(User).Result;
+            string userID = UserUtils.RetornaIdUsuarioLogado(User);
             var user = _userManager.FindByIdAsync(userID).Result;
 
             user.CPF = userView.CPF;

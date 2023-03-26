@@ -51,9 +51,9 @@ namespace Infrastructure.Repository.RepositoryExternal
             {
                 return null;
             }
-            using (var client = new WebClient())
+            using (var client = new HttpClient())
             {
-                return client.DownloadData(filePathSpriteImg);
+                return client.GetByteArrayAsync(filePathSpriteImg).Result;
             }
         }
 
@@ -61,7 +61,7 @@ namespace Infrastructure.Repository.RepositoryExternal
         {
             try
             {
-                using (HttpClient client = new HttpClient())
+                using (HttpClient client = new ())
                 {
                     Task<HttpResponseMessage> response = client.GetAsync($"{url}");
                     response.Wait();
