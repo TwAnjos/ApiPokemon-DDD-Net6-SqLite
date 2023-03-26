@@ -18,7 +18,7 @@ namespace Domain.ServicesInternal
             await _ITelefoneInfrasctructure.Add(tel);
         }
 
-        public Telefone? GetByUserId(string id)
+        public Telefone GetByUserId(string id)
         {
             return _ITelefoneInfrasctructure.GetEntityByUserId(id);
         }

@@ -15,7 +15,7 @@ namespace Infrastructure.Repository.RepositoriesInternal
             _OptionBuilder = new DbContextOptions<ContextBase>();
         }
 
-        public UserEndereco? GetEntityByUserId(string id)
+        public UserEndereco GetEntityByUserId(string id)
         {
             using (var db = new ContextBase(_OptionBuilder))
             {

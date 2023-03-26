@@ -5,6 +5,6 @@ namespace Domain.InterfacesInternal
 {
     public interface IUserEnderecosInfrastructure : IGeneric<UserEndereco>
     {
-        UserEndereco? GetEntityByUserId(string id);
+        UserEndereco GetEntityByUserId(string id);
     }
 }

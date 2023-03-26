@@ -5,6 +5,6 @@ namespace Domain.InterfacesInternal
 {
     public interface ITelefoneInfrasctructure : IGeneric<Telefone>
     {
-        Telefone? GetEntityByUserId(string id);
+        Telefone GetEntityByUserId(string id);
     }
 }

@@ -18,7 +18,7 @@ namespace Infrastructure.Repository.RepositoryExternal
             _listSpeciesEvolutions = new List<Species>();
         }
 
-        public Pokemon? GetPokemonById(int idPokemon)
+        public Pokemon GetPokemonById(int idPokemon)
         {
             try
             {
@@ -45,7 +45,7 @@ namespace Infrastructure.Repository.RepositoryExternal
             }
         }
 
-        private byte[]? GetSpriteB64(string filePathSpriteImg)
+        private byte[] GetSpriteB64(string filePathSpriteImg)
         {
             if (filePathSpriteImg == null)
             {
@@ -57,7 +57,7 @@ namespace Infrastructure.Repository.RepositoryExternal
             }
         }
 
-        private List<Species>? GetSpeciesDetailsPokemon(string url)
+        private List<Species> GetSpeciesDetailsPokemon(string url)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace Infrastructure.Repository.RepositoryExternal
                     if (response.Result.IsSuccessStatusCode)
                     {
                         Task<string> result = response.Result.Content.ReadAsStringAsync();
-                        SpeciesDetails? details = JsonConvert.DeserializeObject<SpeciesDetails>(result.Result);
+                        SpeciesDetails details = JsonConvert.DeserializeObject<SpeciesDetails>(result.Result);
 
                         return GetEvolutionListFromChainPokemon(details.evolution_chain.url);
                     }
@@ -82,10 +82,10 @@ namespace Infrastructure.Repository.RepositoryExternal
             return null;
         }
 
-        private List<Species>? GetEvolutionListFromChainPokemon(string url)
+        private List<Species> GetEvolutionListFromChainPokemon(string url)
         {
             _listSpeciesEvolutions.Clear();
-            EvolutionChainDetails? details = new EvolutionChainDetails();
+            EvolutionChainDetails details = new EvolutionChainDetails();
             try
             {
                 using (HttpClient client = new HttpClient())

@@ -6,6 +6,6 @@ namespace Domain.InterfacesInternal.InterfacesServices
     {
         Task Adicionar(UserEndereco endereco);
 
-        UserEndereco? GetByUserId(string id);
+        UserEndereco GetByUserId(string id);
     }
 }

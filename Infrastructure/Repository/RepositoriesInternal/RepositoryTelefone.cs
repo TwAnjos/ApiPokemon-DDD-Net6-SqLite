@@ -15,7 +15,7 @@ namespace Infrastructure.Repository.RepositoriesInternal
             _OptionBuilder = new DbContextOptions<ContextBase>();
         }
 
-        public Telefone? GetEntityByUserId(string id)
+        public Telefone GetEntityByUserId(string id)
         {
             using (var db = new ContextBase(_OptionBuilder))
             {

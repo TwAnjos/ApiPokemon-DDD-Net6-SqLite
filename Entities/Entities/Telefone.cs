@@ -5,20 +5,20 @@ using System.Text.Json.Serialization;
 namespace Entities.Entities
 {
     [Table("TB_TELEFONE")]
-    public class Telefone
+    public class Telefone : Notifies
     {
         [Key]
         [Column("TLF_ID")]
         public int Id { get; set; }
 
         [Column("TLF_TELEFONE")]
-        public string? NumeroTelefone { get; set; }
+        public string NumeroTelefone { get; set; }
 
         [ForeignKey("ApplicationUser")]
         [Column("TLF_USR_ID", Order = 1)]
-        public string? UserId { get; set; }
+        public string UserId { get; set; }
 
         [JsonIgnore]
-        public virtual ApplicationUser? ApplicationUser { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
     }
 }

@@ -8,8 +8,8 @@ namespace Entities.EntitiesExternal
 {
     public class Chain
     {
-        public List<EvolvesTo>? evolves_to { get; set; }
-        public bool? is_baby { get; set; }
-        public Species? species { get; set; }
+        public List<EvolvesTo> evolves_to { get; set; }
+        public bool is_baby { get; set; }
+        public Species species { get; set; }
     }
 }

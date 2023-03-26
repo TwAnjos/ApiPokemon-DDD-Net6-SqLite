@@ -6,6 +6,6 @@ namespace Domain.InterfacesInternal.InterfacesServices
     {
         Task Adicionar(Telefone tel);
 
-        Telefone? GetByUserId(string id);
+        Telefone GetByUserId(string id);
     }
 }
