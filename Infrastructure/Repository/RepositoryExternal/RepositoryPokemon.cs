@@ -32,7 +32,8 @@ namespace Infrastructure.Repository.RepositoryExternal
                         var retorno = resposta.Result.Content.ReadAsStringAsync();
                         var pokemon = JsonConvert.DeserializeObject<Pokemon>(retorno.Result);
                         pokemon.evolutions = GetSpeciesDetailsPokemon(pokemon.species.url);
-                        pokemon.spriteBase64 = GetSpriteB64(pokemon.sprites.front_default);
+                        //pokemon.spriteBase64 = GetSpriteB64(pokemon.sprites.front_default);
+                        pokemon.sprites.spriteBase64 = GetSpriteB64(pokemon.sprites.front_default);
 
                         return pokemon;
                     }
@@ -138,7 +139,7 @@ namespace Infrastructure.Repository.RepositoryExternal
                         var retorno = resposta.Result.Content.ReadAsStringAsync();
                         var pokemon = JsonConvert.DeserializeObject<Pokemon>(retorno.Result);
                         pokemon.evolutions = GetSpeciesDetailsPokemon(pokemon.species.url);
-                        pokemon.spriteBase64 = GetSpriteB64(pokemon.sprites.front_default);
+                        pokemon.sprites.spriteBase64 = GetSpriteB64(pokemon.sprites.front_default);
 
                         return pokemon;
                     }

@@ -15,6 +15,6 @@
         public string location_area_encounters { get; set; }
         public Species species { get; set; }
         public List<Species> evolutions { get; set; }
-        public byte[] spriteBase64 { get; set; }
+        //public byte[] spriteBase64 { get; set; }
     }
 }
