@@ -99,7 +99,7 @@ namespace WebAPIs.Controllers
             }
         }
 
-        [Authorize, Produces("application/json"), HttpPost("/api/AtualizarUsuarioLogado")]
+        [Authorize, Produces("application/json" ), HttpPost("/api/AtualizarUsuarioLogado")]
         public async Task<IActionResult> AtualizarUsuarioLogado([FromBody] UserCompleteViewModel userView)
         {
             string userID = UserUtils.RetornaIdUsuarioLogado(User);
