@@ -28,11 +28,11 @@ namespace Infrastructure.Repository.Generics
             }
         }
 
-        public async Task Add(List<T> entities)
+        public async Task AddAll(List<T> entity)
         {
             using (var data = new ContextBase(_OptionBuilder))
             {
-                await data.Set<List<T>>().AddRangeAsync(entities);
+                await data.Set<T>().AddRangeAsync(entity);
                 await data.SaveChangesAsync();
             }
         }
@@ -100,6 +100,8 @@ namespace Infrastructure.Repository.Generics
         }
 
         
+
+
         #endregion
     }
 }

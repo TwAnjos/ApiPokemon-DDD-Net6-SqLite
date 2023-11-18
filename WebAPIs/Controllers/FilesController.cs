@@ -33,7 +33,7 @@ namespace WebAPIs.Controllers
                 List<UserShawandpartners> userShawandpartnersList = _IMapper.Map<List<UserShawandpartners>>(userShawandpartnersViewModel);
 
                 //inserting in de in db
-                var result = await _IServiceFile.AddCSV(userShawandpartnersList);
+                await _IServiceFile.AddCSV(userShawandpartnersList);
 
                 return Ok($"csv file was uploaded successfully. {userShawandpartnersViewModel.Count}");
             }

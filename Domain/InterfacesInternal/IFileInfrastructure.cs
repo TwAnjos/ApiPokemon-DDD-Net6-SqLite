@@ -1,5 +1,6 @@
 ﻿using Domain.Utils.InterfaceGenerics;
 using Entities.Entities;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,6 @@ namespace Domain.InterfacesInternal
 {
     public interface IFileInfrastructure: IGeneric<UserShawandpartners>
     {
+
     }
 }

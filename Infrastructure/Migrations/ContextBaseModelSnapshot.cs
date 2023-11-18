@@ -252,6 +252,34 @@ namespace Infrastructure.Migrations
                     b.ToTable("TB_USER_ENDERECO");
                 });
 
+            modelBuilder.Entity("Entities.Entities.UserShawandpartners", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("ID");
+
+                    b.Property<string>("City")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("City");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Country");
+
+                    b.Property<string>("Favorite_sport")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Favorite_sport");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserShawandpartners");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")

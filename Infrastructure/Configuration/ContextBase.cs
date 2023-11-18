@@ -20,7 +20,7 @@ namespace Infrastructure.Configuration
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
         public DbSet<Telefone> Telefone { get; set; }
         public DbSet<UserEndereco> UserEndereco { get; set; }
-        ///public DbSet<UserShawandpartners> UserShawandpartners { get; set; }
+        public DbSet<UserShawandpartners> UserShawandpartners { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

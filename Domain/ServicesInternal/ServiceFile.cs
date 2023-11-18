@@ -2,6 +2,7 @@
 using Domain.InterfacesInternal;
 using Domain.InterfacesInternal.InterfacesServices;
 using Entities.Entities;
+using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
 
 namespace Domain.ServicesInternal
@@ -15,11 +16,6 @@ namespace Domain.ServicesInternal
             _IFileInfrastructure = fileInfrastructure;
         }
 
-        public async Task<bool> AddCSV(List<UserShawandpartners> userShawandpartnersList)
-        {
-            var result = _IFileInfrastructure.Add(userShawandpartnersList);
-            return true;
-        }
 
         public List<T> ReadCSV<T>(Stream file)
         {
@@ -27,6 +23,11 @@ namespace Domain.ServicesInternal
             CsvReader csv = new CsvReader(reader, CultureInfo.InvariantCulture);
 
             return csv.GetRecords<T>().ToList();
+        }
+
+        public async Task AddCSV(List<UserShawandpartners> userShawandpartnersList)
+        {
+            await _IFileInfrastructure.AddAll(userShawandpartnersList);
         }
     }
 }

@@ -65,37 +65,45 @@ namespace WebAPIs.Controllers
         [AllowAnonymous, Produces("application/json"), HttpPost("/api/CadastrarUsuario")]
         public async Task<IActionResult> CadastrarUsuario([FromBody] AddUserViewModel userView)
         {
-            var user = new ApplicationUser
+            try
             {
-                UserName = userView.UserName,
-                Email = userView.Email,
-                CPF = userView.CPF,
-                Tipo = TipoUsuario.Comum
-            };
+                var user = new ApplicationUser
+                {
+                    UserName = userView.UserName,
+                    Email = userView.Email,
+                    CPF = userView.CPF,
+                    Tipo = TipoUsuario.Comum
+                };
 
-            var resultado = await _userManager.CreateAsync(user, userView.Senha);
+                var resultado = await _userManager.CreateAsync(user, userView.Senha);
 
-            if (resultado.Errors.Any())
-            {
-                return BadRequest(resultado.Errors);
+                if (resultado.Errors.Any())
+                {
+                    return BadRequest(resultado.Errors);
+                }
+
+                //Geração de confirmação caso precise
+                _ = await _userManager.GetUserIdAsync(user);
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+
+                //Retorno email
+                code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
+                var resultado2 = await _userManager.ConfirmEmailAsync(user, code);
+
+                if (resultado2.Succeeded)
+                {
+                    return Ok("Usuário adicionado com sucesso");
+                }
+                else
+                {
+                    return BadRequest("Erro ao cadastrar usuário");
+                }
             }
-
-            //Geração de confirmação caso precise
-            _ = await _userManager.GetUserIdAsync(user);
-            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-
-            //Retorno email
-            code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
-            var resultado2 = await _userManager.ConfirmEmailAsync(user, code);
-
-            if (resultado2.Succeeded)
+            catch (Exception ex)
             {
-                return Ok("Usuário adicionado com sucesso");
-            }
-            else
-            {
-                return BadRequest("Erro ao cadastrar usuário");
+
+                throw new Exception(ex.Message);
             }
         }
 
