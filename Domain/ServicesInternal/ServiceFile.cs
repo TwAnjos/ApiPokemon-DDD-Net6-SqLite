@@ -2,7 +2,6 @@
 using Domain.InterfacesInternal;
 using Domain.InterfacesInternal.InterfacesServices;
 using Entities.Entities;
-using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
 
 namespace Domain.ServicesInternal
@@ -16,7 +15,6 @@ namespace Domain.ServicesInternal
             _IFileInfrastructure = fileInfrastructure;
         }
 
-
         public List<T> ReadCSV<T>(Stream file)
         {
             StreamReader reader = new StreamReader(file);
@@ -28,6 +26,19 @@ namespace Domain.ServicesInternal
         public async Task AddCSV(List<UserShawandpartners> userShawandpartnersList)
         {
             await _IFileInfrastructure.AddAll(userShawandpartnersList);
+        }
+
+        public async Task<List<UserShawandpartners>> FindUsers(string q)
+        {
+            List<UserShawandpartners> users = new();
+
+            users.AddRange(await _IFileInfrastructure.FindUserByColumnName(f => f.Name.ToLower().Contains(q.ToLower())));
+            users.AddRange(await _IFileInfrastructure.FindUserByColumnName(f => f.City.ToLower().Contains(q.ToLower())));
+            users.AddRange(await _IFileInfrastructure.FindUserByColumnName(f => f.Country.ToLower().Contains(q.ToLower())));
+            users.AddRange(await _IFileInfrastructure.FindUserByColumnName(f => f.Favorite_sport.ToLower().Contains(q.ToLower())));
+            users.AddRange(await _IFileInfrastructure.FindUserByColumnName(f => f.Id.ToString().Contains(q.ToLower())));
+
+            return users;
         }
     }
 }

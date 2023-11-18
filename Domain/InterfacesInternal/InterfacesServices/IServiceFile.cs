@@ -1,5 +1,4 @@
 ﻿using Entities.Entities;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Domain.InterfacesInternal.InterfacesServices
 {
@@ -7,6 +6,8 @@ namespace Domain.InterfacesInternal.InterfacesServices
     {
         public List<T> ReadCSV<T>(Stream file);
 
-        Task AddCSV(List<UserShawandpartners> userShawandpartnersList);
+        public Task AddCSV(List<UserShawandpartners> userShawandpartnersList);
+
+        public Task<List<UserShawandpartners>> FindUsers(string q);
     }
 }
