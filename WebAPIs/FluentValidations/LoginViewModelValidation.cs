@@ -7,10 +7,10 @@ namespace WebAPIs.FluentValidations
     {
         public LoginViewModelValidation()
         {
-            string regerEmail = @"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$";
+            string regexEmail = @"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$";
             RuleFor(u => u.email)
                 .NotEmpty().WithMessage($"o campo email é Obrigatório.")
-                .Matches(regerEmail).WithMessage($"o campo email não é valido.");
+                .Matches(regexEmail).WithMessage($"o campo email não é valido.");
 
             RuleFor(u => u.senha)
                 .NotEmpty().WithMessage($"o campo senha é Obrigatório.")

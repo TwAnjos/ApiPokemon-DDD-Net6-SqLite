@@ -1,17 +1,14 @@
 ﻿using Entities.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Configuration
 {
     public class ContextBase : IdentityDbContext<ApplicationUser>
     {
-        public ContextBase(DbContextOptions<ContextBase> options) : base(options) { }
+        public ContextBase(DbContextOptions<ContextBase> options) : base(options)
+        {
+        }
 
         protected ContextBase()
         {
@@ -23,12 +20,13 @@ namespace Infrastructure.Configuration
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
         public DbSet<Telefone> Telefone { get; set; }
         public DbSet<UserEndereco> UserEndereco { get; set; }
+        ///public DbSet<UserShawandpartners> UserShawandpartners { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //optionsBuilder.UseSqlServer(ObterStringConexao());
-            optionsBuilder.UseSqlite(ObterStringConexao());
-            
+            optionsBuilder.UseSqlite(GetStringConnection());
+
             base.OnConfiguring(optionsBuilder);
         }
 
@@ -38,8 +36,7 @@ namespace Infrastructure.Configuration
             base.OnModelCreating(builder);
         }
 
-
-        public string ObterStringConexao()
+        public string GetStringConnection()
         {
             //return "Data Source=Localshost\\SQLEXPRESS;Initial Catalog=DbMsSqlName;Integrated Security=False;User ID=sa;Password=;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False";
             return "Data Source=DBAPIPOKEMON.db";
