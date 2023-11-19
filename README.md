@@ -1,5 +1,4 @@
 # ApiPokemon-DDD-Net6-SqLite
-
 To Run:
 dotnet run --project .\WebAPIs
 
@@ -16,6 +15,3 @@ Migrations:
 Package Manager Console:
 1- Add-Migration 001 -Project Infrastructure
 2- update-database -Project Infrastructure
-
-
-
