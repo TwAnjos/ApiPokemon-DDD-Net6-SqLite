@@ -28,6 +28,11 @@ namespace WebAPIs.Controllers
         {
             try
             {
+                if (files == null || files.Count == 0)
+                {
+                    return BadRequest("files = null");
+                }
+
                 List<UserShawandpartnersViewModel> userShawandpartnersViewModel = new();
                 foreach (var file in files)
                 {
@@ -48,11 +53,16 @@ namespace WebAPIs.Controllers
             }
         }
 
-        [Produces("application/json"), HttpGet("/api/Files/Users")]
+        [Produces("application/json"), HttpGet("/api/Users")]
         public async Task<IActionResult> FindUsers([FromQuery] string q)
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(q))
+                {
+                    return NotFound();
+                }
+
                 var result = await _IServiceFile.FindUsers(q);
                 //O filtro deve procurar correspondências parciais e também não diferenciar maiúsculas de minúsculas.
 
