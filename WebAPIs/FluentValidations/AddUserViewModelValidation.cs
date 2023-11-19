@@ -14,7 +14,7 @@ namespace WebAPIs.FluentValidations
 
             RuleFor(v => v.Senha)
                 .NotEmpty().WithMessage($"o campo senha é Obrigatório.")
-                .Must(v => v.Length >= 10 && v.Length <= 15).WithMessage($"o campo senha deve ser maior ou igual a 10 e menor ou igual a 15.");
+                .Must(v => v.Length >= 6 && v.Length <= 10).WithMessage($"o campo senha deve ser maior ou igual a 6 e menor ou igual a 10.");
 
             RuleFor(v => v.CPF)
                 .NotEmpty().WithMessage($"o campo email é Obrigatório.")

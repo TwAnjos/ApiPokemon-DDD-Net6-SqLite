@@ -28,6 +28,15 @@ namespace Infrastructure.Repository.Generics
             }
         }
 
+        public async Task AddAll(List<T> entity)
+        {
+            using (var data = new ContextBase(_OptionBuilder))
+            {
+                await data.Set<T>().AddRangeAsync(entity);
+                await data.SaveChangesAsync();
+            }
+        }
+
         public async Task Delete(T entity)
         {
             using (var data = new ContextBase(_OptionBuilder))
@@ -89,6 +98,10 @@ namespace Infrastructure.Repository.Generics
             }
             disposed = true;
         }
+
+        
+
+
         #endregion
     }
 }

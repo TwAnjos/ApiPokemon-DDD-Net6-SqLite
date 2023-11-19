@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ContextBase))]
-    [Migration("20230326163027_mod1")]
-    partial class mod1
+    [Migration("20231119171419_NewMigration")]
+    partial class NewMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -252,6 +252,34 @@ namespace Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("TB_USER_ENDERECO");
+                });
+
+            modelBuilder.Entity("Entities.Entities.UserShawandpartners", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("ID");
+
+                    b.Property<string>("City")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("City");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Country");
+
+                    b.Property<string>("Favorite_sport")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Favorite_sport");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserShawandpartners");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

@@ -15,8 +15,8 @@ namespace Domain.Services
 
         public async Task Adicionar(Message message)
         {
-            bool validaTitulo = message.ValidarPropriedadeString(message.Titulo, "Titulo");
-            if (validaTitulo)
+            bool checkTitle = message.ValidarPropriedadeString(message.Titulo, "Titulo");
+            if (checkTitle)
             {
                 message.DataCadastro = DateTime.Now;
                 message.DataAlteracao = DateTime.Now;
@@ -27,8 +27,8 @@ namespace Domain.Services
 
         public async Task Atualizar(Message message)
         {
-            bool validaTitulo = message.ValidarPropriedadeString(message.Titulo, "Titulo");
-            if (validaTitulo)
+            bool checkTitle = message.ValidarPropriedadeString(message.Titulo, "Titulo");
+            if (checkTitle)
             {
                 message.DataAlteracao = DateTime.Now;
                 await _IMessageInfrastructure.Update(message);

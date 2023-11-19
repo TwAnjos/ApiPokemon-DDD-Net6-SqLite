@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Entities
 {
-    [Table("TB_USER")]
+
     public class ApplicationUser : IdentityUser
     {
         [Column("USR_CPF", TypeName = "VARCHAR(11)")]

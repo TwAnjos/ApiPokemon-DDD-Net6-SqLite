@@ -9,6 +9,7 @@ namespace Domain.Utils.InterfaceGenerics
     public interface IGeneric<T> where T : class
     {
         Task Add(T entity);
+        Task AddAll(List<T> entity);
         Task Update(T entity);
         Task Delete(T entity);
         Task<T> GetEntityById(int Id);

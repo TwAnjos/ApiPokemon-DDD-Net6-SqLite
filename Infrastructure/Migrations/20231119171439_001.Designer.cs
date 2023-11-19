@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ContextBase))]
-    [Migration("20230324142037_2")]
-    partial class _2
+    [Migration("20231119171439_001")]
+    partial class _001
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,7 +50,7 @@ namespace Infrastructure.Migrations
                         .HasColumnType("INTEGER")
                         .HasColumnName("USR_GENERO");
 
-                    b.Property<int?>("Idade")
+                    b.Property<int>("Idade")
                         .HasColumnType("INTEGER")
                         .HasColumnName("USR_IDADE");
 
@@ -84,7 +84,7 @@ namespace Infrastructure.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("Tipo")
+                    b.Property<int>("Tipo")
                         .HasColumnType("INTEGER")
                         .HasColumnName("USR_TIPO");
 
@@ -127,19 +127,16 @@ namespace Infrastructure.Migrations
                         .HasColumnName("MSN_DATA_CADASTRO");
 
                     b.Property<string>("Mensagem")
-                        .IsRequired()
                         .HasMaxLength(300)
                         .HasColumnType("TEXT")
                         .HasColumnName("MSN_MENSAGEM");
 
                     b.Property<string>("Titulo")
-                        .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("TEXT")
                         .HasColumnName("MSN_TITULO");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("TEXT")
                         .HasColumnOrder(1);
 
@@ -174,12 +171,10 @@ namespace Infrastructure.Migrations
                         .HasColumnName("PKM_ID");
 
                     b.Property<string>("PokemonName")
-                        .IsRequired()
                         .HasColumnType("TEXT")
                         .HasColumnName("PKM_NOME");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("TEXT")
                         .HasColumnName("PKM_USR_ID")
                         .HasColumnOrder(1);
@@ -257,6 +252,34 @@ namespace Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("TB_USER_ENDERECO");
+                });
+
+            modelBuilder.Entity("Entities.Entities.UserShawandpartners", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("ID");
+
+                    b.Property<string>("City")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("City");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Country");
+
+                    b.Property<string>("Favorite_sport")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Favorite_sport");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserShawandpartners");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -395,9 +418,7 @@ namespace Infrastructure.Migrations
                 {
                     b.HasOne("Entities.Entities.ApplicationUser", "ApplicationUser")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("ApplicationUser");
                 });
@@ -406,9 +427,7 @@ namespace Infrastructure.Migrations
                 {
                     b.HasOne("Entities.Entities.ApplicationUser", "ApplicationUser")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("ApplicationUser");
                 });
