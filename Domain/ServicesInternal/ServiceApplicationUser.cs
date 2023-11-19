@@ -1,12 +1,6 @@
 ﻿using Domain.Interfaces;
 using Domain.Interfaces.InterfacesServices;
 using Entities.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.Services
 {
@@ -21,11 +15,7 @@ namespace Domain.Services
 
         public async Task<List<ApplicationUser>> ListarApplicationUsers()
         {
-            var teste = await _IApplicationUserInfrastructure.ListarApplicationUsers(n => n.EmailConfirmed);
-            return teste;
+            return await _IApplicationUserInfrastructure.ListarApplicationUsers(n => n.EmailConfirmed); ;
         }
-
-
-
     }
 }

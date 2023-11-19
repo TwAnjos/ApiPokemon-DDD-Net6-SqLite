@@ -1,8 +1,6 @@
-
 using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace TestProject_Api
@@ -10,46 +8,45 @@ namespace TestProject_Api
     [TestClass]
     public class MessageTest
     {
-        public static string Token { get; set;}
+        public static string Token { get; set; }
 
         [TestMethod]
-        public void TestMethod1()
+        public void MessageTestGetALL()
         {
-            var result = ChamaApiPost("https://localhost:7171/api/GetAll").Result;
+            var result = CallApi("https://localhost:5000/api/GetAll").Result;
 
-            var listaMessage = JsonConvert.DeserializeObject<Message[]>(result).ToList();
+            var listMessage = JsonConvert.DeserializeObject<Message[]>(result).ToList();
 
-            Assert.IsTrue(listaMessage.Any());
+            Assert.IsTrue(listMessage.Any());
         }
 
         public void GetToken()
         {
-            string urlApiGeraToken = "https://localhost:7171/api/CriarTokenIdentity";
+            string urlApiGetToken = "https://localhost:5000/api/GerarTokenAPI";
 
-            using(var cliente = new HttpClient())
+            using (var client = new HttpClient())
             {
-                string login = "teste@teste.com";
-                string senha = "@Teste1234";
+                string login = "thiago@thiago.com";
+                string senha = "@Tt123";
 
-                var dados = new
+                var data = new
                 {
                     email = login,
                     senha = senha,
                     cpf = "string"
                 };
 
-                string JsonObjeto = JsonConvert.SerializeObject(dados);
-                var content = new StringContent(JsonObjeto, Encoding.UTF8, "application/json");
-                var resultado = cliente.PostAsync(urlApiGeraToken, content);
-                resultado.Wait();
+                string JsonObjet = JsonConvert.SerializeObject(data);
+                var content = new StringContent(JsonObjet, Encoding.UTF8, "application/json");
+                var result = client.PostAsync(urlApiGetToken, content);
+                result.Wait();
 
-                if (resultado.Result.IsSuccessStatusCode)
+                if (result.Result.IsSuccessStatusCode)
                 {
-                    var tokenJson = resultado.Result.Content.ReadAsStringAsync();
+                    var tokenJson = result.Result.Content.ReadAsStringAsync();
                     Token = JsonConvert.DeserializeObject(tokenJson.Result).ToString();
                 }
             }
-            
         }
 
         public string ChamaApiGet(string url)
@@ -64,28 +61,28 @@ namespace TestProject_Api
             }
         }
 
-        public async Task<string> ChamaApiPost(string url, object dados = null)
+        public async Task<string> CallApi(string url, object dados = null)
         {
-            string JsonObjeto = dados != null ? JsonConvert.SerializeObject(dados) : "";
-            var content = new StringContent(JsonObjeto, Encoding.UTF8, "application/json");
+            ///string JsonObjeto = dados != null ? JsonConvert.SerializeObject(dados) : "";
+            //var content = new StringContent(JsonObjeto, Encoding.UTF8, "application/json");
             GetToken();
 
-            if(!string.IsNullOrWhiteSpace(Token))
+            if (!string.IsNullOrWhiteSpace(Token))
             {
-                using( var cliente = new HttpClient())
+                using (var cliente = new HttpClient())
                 {
                     cliente.DefaultRequestHeaders.Clear();
                     cliente.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
-                    var response = cliente.PostAsync(url, content);
+                    //var response = cliente.PostAsync(url, content);
+                    Task<HttpResponseMessage> response = cliente.GetAsync(url);
                     response.Wait();
 
-                    if(response.Result.IsSuccessStatusCode)
+                    if (response.Result.IsSuccessStatusCode)
                     {
-                        var retorno = await response.Result.Content.ReadAsStringAsync();
-                        return retorno;
+                        var objReturned = await response.Result.Content.ReadAsStringAsync();
+                        return objReturned;
                     }
                 }
-
             }
             return "Token = IsNullOrWhiteSpace";
         }
